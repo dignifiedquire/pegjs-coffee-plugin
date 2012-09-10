@@ -11,7 +11,8 @@ Plugin for PEG.js to use coffee script in actions.
 
 ## Installation
 
-**Node.js**
+#### Node.js
+
 ```bash
 $ npm install peg-coffee
 ```
@@ -21,7 +22,8 @@ PEG = require 'pegjs'
 PEGCoffee = require '../lib/peg-coffee'
 ```
 
-**Browser**
+#### Browser
+
 Download
 [peg-coffee.js](https://raw.github.com/Dignifiedquire/peg-coffee/master/lib/peg-coffee.js).
 Now include all needed scripts in your html file like this.
