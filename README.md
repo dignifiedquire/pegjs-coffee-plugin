@@ -64,6 +64,7 @@ and for the browser
 ```bash
 $ make test-browser
 ```
+and open your browser on [localhost:3000](http://localhost:3000).
 
 
 
