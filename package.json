@@ -2,7 +2,7 @@
   "name": "peg-coffee",
   "version": "0.1.0",
   "description": "A plugin for PEG.js to use CoffeeScript in your actions.",
-  "homepage" : "https://github.com/Dignifiedquire/peg-coffee",
+  "homepage": "https://github.com/Dignifiedquire/peg-coffee",
   "keywords": [
     "coffeescript",
     "javascript",
@@ -32,6 +32,7 @@
   "devDependencies": {
     "pegjs": "~0.7.0",
     "mocha": "~1.4.2",
-    "expect.js": "~0.1.2"
+    "expect.js": "~0.1.2",
+    "http-server": "~0.5.1"
   }
 }

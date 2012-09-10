@@ -76,7 +76,7 @@
         });
         compile(ast);
         if (ast.initializer) {
-          return ast.initializer = compileCoffee(ast.initializer);
+          return ast.initializer.code = compileCoffee(ast.initializer.code);
         }
       }
     };

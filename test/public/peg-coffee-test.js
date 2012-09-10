@@ -30,16 +30,23 @@
         expectedPassNames = ['reportMissingRules', 'reportLeftRecursion', 'removeProxyRules', 'compileFromCoffeeScript', 'computeVarNames', 'computeParams'];
         return expect(appliedPassNames).to.eql(expectedPassNames);
       });
-      return test('should only be added once', function() {
+      return test('pass should only be added once', function() {
         PEGCoffee.initialize(PEG);
         PEGCoffee.initialize(PEG);
         return expect(PEG.compiler.appliedPassNames.length).to.equal(6);
       });
     });
     return suite('compile grammar', function() {
-      return test('simple coffee script action', function() {
+      test('simple coffee script action', function() {
         var grammar, parser, result;
         grammar = 'start = "a" { return "#{1+1}" }';
+        parser = PEG.buildParser(grammar);
+        result = parser.parse("a");
+        return expect(result).to.equal("2");
+      });
+      return test('simple coffee script initializer', function() {
+        var grammar, parser, result;
+        grammar = '{\n  val = "#{1+1}"\n}\nstart\n  = "a" { return val }';
         parser = PEG.buildParser(grammar);
         result = parser.parse("a");
         return expect(result).to.equal("2");
