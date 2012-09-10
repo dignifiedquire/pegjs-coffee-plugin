@@ -1,0 +1,26 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Mocha Tests</title>
+  <link rel="stylesheet" href="mocha.css" />
+  <script src="jquery.js"></script>
+  <script src="expect.js"></script>
+  <script src="mocha.js"></script>
+  <script>mocha.setup('tdd')</script>
+  <script src="coffee-script.js"></script>
+  <script src="peg.js"></script>
+  <script src="peg-coffee.js"></script>
+  <script src="peg-coffee-test.js"></script>
+  <script>
+    $(function(){
+      mocha
+        .setup({ignoreLeaks: true})
+        .globals(['CoffeeScript', 'PEG', 'PEGCoffee'])
+        .run()
+    });
+  </script>
+</head>
+<body>
+  <div id="mocha"></div>
+</body>
+</html>

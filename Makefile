@@ -2,26 +2,32 @@ default: build
 
 # directories
 LIB = lib
-TESTS = tests
+TEST = test
 SRC = src
+PUBLIC = $(TEST)/public
 
 # commands
 COFFEE = node_modules/coffee-script/bin/coffee
 PEGJS = node_modules/pegjs/bin/pegjs
 MOCHA = node_modules/mocha/bin/mocha --compilers coffee:coffee-script -u tdd
 MINIFIER = node_modules/uglify-js/bin/uglifyjs --no-copyright --mangle-toplevel --reserved-names require,module,exports,global,window
+HTTP_SERVER = node_modules/http-server/bin/http-server -p 3000
 
 build: 
 	$(COFFEE) -c -o $(LIB) $(SRC)
 
+build-browser: build
+	cp $(LIB)/peg-coffee.js $(PUBLIC)/peg-coffee.js
+	$(COFFEE) -c -o $(PUBLIC) $(TEST)/peg-coffee-test.coffee
+
 #minify: $(LIBMIN)
 
-# TODO: build-browser
-# TODO: test-browser
 
 
 test: build
 	$(MOCHA) 
 
+test-browser: build-browser
+	$(HTTP_SERVER) $(PUBLIC)
 
-.PHONY: test
+.PHONY: test test-browser build

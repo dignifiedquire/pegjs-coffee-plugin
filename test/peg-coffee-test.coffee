@@ -1,12 +1,25 @@
-expect = require 'expect.js'
+#
+#  test/peg-coffee-test.coffee
+# 
 
+# Load dependencies
+if typeof require isnt 'undefined'
+  # Node.js
+  CoffeeScript = require 'coffee-script'
+  expect = require 'expect.js'
+  PEG = require 'pegjs'
+  PEGCoffee = require '../lib/peg-coffee'
+else
+  # Browser
+  CoffeeScript = global.CoffeeScript
+  expect = global.expect
+  PEG = global.PEG
+  PEGCoffee = global.PEGCoffee
+
+
+# Test suite for the plugin  
 suite 'peg-coffee', ->
-  PEG = {}
-  PEGCoffee = {}
-  
   setup ->
-    PEG = require 'pegjs'
-    PEGCoffee = require '../lib/peg-coffee'
     PEGCoffee.initialize PEG
     
   suite 'initialize plugin', ->
@@ -27,7 +40,7 @@ suite 'peg-coffee', ->
       ]
       expect(appliedPassNames).to.eql expectedPassNames
 
-    test 'should only be added once', ->
+    test 'pass should only be added once', ->
       PEGCoffee.initialize PEG
       PEGCoffee.initialize PEG
 
