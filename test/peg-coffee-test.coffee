@@ -1,4 +1,4 @@
-should = require 'should'
+expect = require 'expect.js'
 
 suite 'peg-coffee', ->
   PEG = {}
@@ -13,7 +13,7 @@ suite 'peg-coffee', ->
     
     test 'adds pass to passes', ->
       passes = PEG.compiler.passes
-      passes.should.have.property 'compileFromCoffeeScript'
+      expect(passes).to.have.property 'compileFromCoffeeScript'
       
     test 'adds pass to appliedPassNames', ->
       appliedPassNames = PEG.compiler.appliedPassNames
@@ -25,13 +25,13 @@ suite 'peg-coffee', ->
         'computeVarNames'
         'computeParams'
       ]
-      appliedPassNames.should.eql expectedPassNames
+      expect(appliedPassNames).to.eql expectedPassNames
 
     test 'should only be added once', ->
       PEGCoffee.initialize PEG
       PEGCoffee.initialize PEG
 
-      PEG.compiler.appliedPassNames.length.should.eql 6
+      expect(PEG.compiler.appliedPassNames.length).to.equal 6
 
   suite 'compile grammar', ->
 
@@ -39,6 +39,6 @@ suite 'peg-coffee', ->
       grammar = 'start = "a" { return "#{1+1}" }'
       parser = PEG.buildParser grammar
       result = parser.parse "a"
-      result.should.eql "2"
+      expect(result).to.equal "2"
       
       
