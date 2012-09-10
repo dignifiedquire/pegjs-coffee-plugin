@@ -65,6 +65,12 @@ $ git clone https://github.com/Dignifiedquire/peg-coffee.git
 $ make install
 ```
 
+### Building
+
+```bash
+$ make build
+```
+
 # Running the tests
 
 For the node.js test run
@@ -82,5 +88,5 @@ and open your browser on [localhost:3000](http://localhost:3000).
 # Todo
 
 * more tests
-* add CoffeeScript test suite
 * make npm package
+* add function to unload the plugin
