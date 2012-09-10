@@ -12,6 +12,7 @@ PEGJS = node_modules/pegjs/bin/pegjs
 MOCHA = node_modules/mocha/bin/mocha --compilers coffee:coffee-script -u tdd
 MINIFIER = node_modules/uglify-js/bin/uglifyjs --no-copyright --mangle-toplevel --reserved-names require,module,exports,global,window
 HTTP_SERVER = node_modules/http-server/bin/http-server -p 3000
+NPM = npm
 
 build: 
 	$(COFFEE) -c -o $(LIB) $(SRC)
@@ -22,6 +23,8 @@ build-browser: build
 
 #minify: $(LIBMIN)
 
+install: 
+	$(NPM) install
 
 
 test: build
@@ -30,4 +33,4 @@ test: build
 test-browser: build-browser
 	$(HTTP_SERVER) $(PUBLIC)
 
-.PHONY: test test-browser build
+.PHONY: test test-browser build build-browser

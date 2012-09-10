@@ -10,7 +10,7 @@ Usage
 # Node.js
 
 First install it via
-```shell
+```bash
 $ npm install peg-coffee
 ```
 Then in your code you do
@@ -27,24 +27,48 @@ PEG.compile(..)
 
 # Browser
 ## Script
+Load the following scripts
 
-## Require.js
+```html
+<script src="peg.js"></script>
+<script src=coffee-script.js"></script>
+<script src="peg-coffee.js"></script>
+```
+
 
 
 Development
 -----------
 
+# Requirements
+
+* Node.js with npm
+
+Everything else gets installed automatically.
 
 # Setup
 
+Clone the repo and run the install
+```bash
+$ git clone https://github.com/Dignifiedquire/peg-coffee.git
+$ make install
+```
 
 # Running the tests
+
+For the node.js test run
+```bash
+$ make test
+```
+and for the browser
+```bash
+$ make test-browser
+```
 
 
 
 # Todo
 
-* add pass
-* make browser compatible
+* more tests
 * add CoffeeScript test suite
 * make npm package
