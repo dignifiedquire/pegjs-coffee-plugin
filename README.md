@@ -31,10 +31,11 @@ Now include all needed scripts in your html file like this.
 <script src="peg.js"></script>
 <script src=coffee-script.js"></script>
 <script src="peg-coffee.js"></script>
-``
+```
 
 ## Usage
 After you have loaded all scripts you can do
+
 ```coffee-script
 PEGCoffee.initialize(PEG)
 # From here on out you can use CoffeeScript in your actions
