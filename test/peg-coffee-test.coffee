@@ -54,4 +54,15 @@ suite 'peg-coffee', ->
       result = parser.parse "a"
       expect(result).to.equal "2"
       
-      
+    test 'simple coffee script initializer', ->
+      grammar = '''
+        {
+          val = "#{1+1}"
+        }
+        start
+          = "a" { return val }
+      '''
+      parser = PEG.buildParser grammar
+      result = parser.parse "a"
+      expect(result).to.equal "2"
+    

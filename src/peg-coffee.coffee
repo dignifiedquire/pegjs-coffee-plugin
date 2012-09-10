@@ -44,7 +44,7 @@ PEGCoffee = (CoffeeScript) ->
 
     compileRule = (node) -> compileAction(node.expression)
       
-    compileAction = (node) ->  
+    compileAction = (node) ->
       node.code = compileCoffee node.code if node.type is 'action'
     
     # recursivly compile in subnodes
@@ -75,7 +75,7 @@ PEGCoffee = (CoffeeScript) ->
     compile(ast)
     
     # compile the initializer
-    ast.initializer = compileCoffee ast.initializer if ast.initializer
+    ast.initializer.code = compileCoffee ast.initializer.code if ast.initializer
 
 
 # Export
