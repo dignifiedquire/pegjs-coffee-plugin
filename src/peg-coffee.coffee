@@ -1,3 +1,6 @@
+utils = require './utils'
+CoffeeScript = require 'coffee-script'
+
 PASS_NAME = 'compileFromCoffeeScript'
 
 module.exports =
@@ -14,5 +17,48 @@ module.exports =
       appliedPassNames.splice index - 1, 0, PASS_NAME
 
   pass: (ast) ->
-    console.log "I was called"
-  
+
+    compileCoffee = (code) ->
+      CoffeeScript.compile code, bare: true
+
+    # empty function
+    nop = ->
+
+    # compile the code   
+    compileRule = (node) ->
+      compileAction(node.expression)
+      
+    compileAction = (node) ->
+      if node.type is 'action'
+        node.code = compileCoffee node.code
+
+    
+    # recursivly compile in subnodes
+    compileInSubnodes = (propertyName) ->
+      (node) -> compile(subnode) for subnode in node[propertyName]
+
+    compile = utils.buildNodeVisitor
+      grammar:      compileInSubnodes('rules')
+      rule:         compileRule
+      named:        nop
+      choice:       compileInSubnodes('alternatives')
+      sequence:     compileInSubnodes('elements')
+      labeled:      nop
+      simple_and:   nop
+      simple_not:   nop
+      semantic_and: nop
+      semantic_not: nop
+      optional:     nop
+      zero_or_more: nop
+      one_or_more:  nop
+      action:       compileAction
+      rule_ref:     nop
+      literal:      nop
+      class:        nop
+      any:          nop      
+
+    # compile the grammar (actions and predicates)
+    compile(ast)
+    
+    # compile the initializer
+    ast.initializer = compileCoffee ast.initializer if ast.initializer
