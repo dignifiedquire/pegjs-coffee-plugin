@@ -34,3 +34,4 @@ test-browser: build-browser
 	$(HTTP_SERVER) $(PUBLIC)
 
 .PHONY: test test-browser build build-browser
+.SILENT: test test-browser build build-browser
