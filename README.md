@@ -3,6 +3,11 @@ peg-coffee
 
 Plugin for PEG.js to use coffee script in actions.
 
+---
+
+** This plugin is not finished yet, so it's not available via `npm` !!**
+
+---
 
 ## Requirements
 
@@ -19,7 +24,7 @@ $ npm install peg-coffee
 Then in your code call
 ```coffee-script
 PEG = require 'pegjs'
-PEGCoffee = require '../lib/peg-coffee'
+PEGCoffee = require 'peg-coffee'
 ```
 
 #### Browser
@@ -53,9 +58,9 @@ PEG.compile(..)
 
 * [Node.js](http://nodejs.org/) with npm
 * [mocha](http://visionmedia.github.com/mocha/)
+* [expect.js](https://github.com/LearnBoost/expect.js)
 * [http-server](https://github.com/nodeapps/http-server)
 
-Everything else gets installed automatically.
 
 ### Setup
 
@@ -87,6 +92,9 @@ and open your browser on [localhost:3000](http://localhost:3000).
 
 # Todo
 
+* expressions nested in rules are not working yet!
 * more tests
 * make npm package
 * add function to unload the plugin
+* make bower package
+* add CLI 
