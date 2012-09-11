@@ -37,19 +37,41 @@
       });
     });
     return suite('compile grammar', function() {
-      test('simple coffee script action', function() {
-        var grammar, parser, result;
-        grammar = 'start = "a" { return "#{1+1}" }';
-        parser = PEG.buildParser(grammar);
-        result = parser.parse("a");
-        return expect(result).to.equal("2");
-      });
-      return test('simple coffee script initializer', function() {
-        var grammar, parser, result;
-        grammar = '{\n  val = "#{1+1}"\n}\nstart\n  = "a" { return val }';
-        parser = PEG.buildParser(grammar);
-        result = parser.parse("a");
-        return expect(result).to.equal("2");
+      return suite('simple CoffeeScript', function() {
+        test('action', function() {
+          var parser;
+          parser = PEG.buildParser('start = "a" { return "#{1+1}" }');
+          return expect(parser.parse("a")).to.equal("2");
+        });
+        test('initializer', function() {
+          var parser;
+          parser = PEG.buildParser('{\n  val = "#{1+1}"\n}\nstart\n  = "a" { return val }');
+          return expect(parser.parse("a")).to.equal("2");
+        });
+        suite('predicates', function() {
+          test('semantic not code', function() {
+            var parser;
+            parser = PEG.buildParser('start\n  = !{return typeof Array is "undefined"}');
+            return expect(parser.parse("")).to.equal("");
+          });
+          return test('semantic and code', function() {
+            var parser;
+            parser = PEG.buildParser('start\n  = &{return typeof Array isnt "undefined"}');
+            return expect(parser.parse("")).to.equal("");
+          });
+        });
+        return suite('variable use', function() {
+          test('can use label variables', function() {
+            var parser;
+            parser = PEG.buildParser('start\n  = a:"a" &{return a is "a"}');
+            return expect(parser.parse("a")).to.eql(["a", ""]);
+          });
+          return test('can use the |offset| variable to get the current parse position', function() {
+            var parser;
+            parser = PEG.buildParser('start\n  = "a" &{return offset is 1}');
+            return expect(parser.parse("a")).to.eql(["a", ""]);
+          });
+        });
       });
     });
   });

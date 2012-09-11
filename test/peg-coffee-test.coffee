@@ -47,22 +47,48 @@ suite 'peg-coffee', ->
       expect(PEG.compiler.appliedPassNames.length).to.equal 6
 
   suite 'compile grammar', ->
+    suite 'simple CoffeeScript', ->
+      test 'action', ->
+        parser = PEG.buildParser 'start = "a" { return "#{1+1}" }'
+        expect(parser.parse "a").to.equal "2"
+        
+      test 'initializer', ->
+        parser = PEG.buildParser '''
+          {
+            val = "#{1+1}"
+          }
+          start
+            = "a" { return val }
+        '''
+        expect(parser.parse "a").to.equal "2"
 
-    test 'simple coffee script action', ->
-      grammar = 'start = "a" { return "#{1+1}" }'
-      parser = PEG.buildParser grammar
-      result = parser.parse "a"
-      expect(result).to.equal "2"
-      
-    test 'simple coffee script initializer', ->
-      grammar = '''
-        {
-          val = "#{1+1}"
-        }
-        start
-          = "a" { return val }
-      '''
-      parser = PEG.buildParser grammar
-      result = parser.parse "a"
-      expect(result).to.equal "2"
-    
+      suite 'predicates', ->
+        test 'semantic not code', ->
+          parser = PEG.buildParser '''
+            start
+              = !{return typeof Array is "undefined"}
+          '''
+          expect(parser.parse "").to.equal ""
+
+        test 'semantic and code', ->
+          parser = PEG.buildParser '''
+            start
+              = &{return typeof Array isnt "undefined"}
+          '''
+          expect(parser.parse "").to.equal ""
+
+
+      suite 'variable use', ->
+        test 'can use label variables', ->
+          parser = PEG.buildParser '''
+            start
+              = a:"a" &{return a is "a"}
+          '''
+          expect(parser.parse "a").to.eql ["a", ""]
+        
+        test 'can use the |offset| variable to get the current parse position', ->
+          parser = PEG.buildParser '''
+            start
+              = "a" &{return offset is 1}
+          '''
+          expect(parser.parse "a").to.eql ["a", ""]

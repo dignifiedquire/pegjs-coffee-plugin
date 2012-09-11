@@ -2,19 +2,6 @@
 # peg-coffee.coffee
 # 
 
-# Utility functions
-
-# modelled after pegjs/src/utils.js
-# 
-# Builds a node visitor -- a function which takes a node and any number of
-# other parameters, calls an appropriate function according to the node type,
-# passes it all its parameters and returns its value. The functions for various
-# node types are passed in a parameter to |buildNodeVisitor| as a hash.
-utils = 
- buildNodeVisitor: (functions) ->
-   (node) ->
-     functions[node.type].apply(null, arguments)
-
 
 # set constants  
 PASS_NAME = 'compileFromCoffeeScript'
@@ -38,44 +25,22 @@ PEGCoffee = (CoffeeScript) ->
 
   pass: (ast) ->
     
-    compileCoffee = (code) -> CoffeeScript.compile(code, bare: true)
+    compileCoffee = (code) ->
+      CoffeeScript.compile(code, bare: true)
 
-    nop = ->
-
-    compileRule = (node) -> compileAction(node.expression)
-      
-    compileAction = (node) ->
-      node.code = compileCoffee node.code if node.type is 'action'
-    
-    # recursivly compile in subnodes
-    compileInSubnodes = (propertyName) ->
-      (node) -> compile(subnode) for subnode in node[propertyName]
-
-    compile = utils.buildNodeVisitor
-      grammar:      compileInSubnodes('rules')
-      rule:         compileRule
-      named:        nop
-      choice:       compileInSubnodes('alternatives')
-      sequence:     compileInSubnodes('elements')
-      labeled:      nop
-      simple_and:   nop
-      simple_not:   nop
-      semantic_and: nop
-      semantic_not: nop
-      optional:     nop
-      zero_or_more: nop
-      one_or_more:  nop
-      action:       compileAction
-      rule_ref:     nop
-      literal:      nop
-      class:        nop
-      any:          nop      
-
-    # compile the grammar (actions and predicates)
+    # recursivley walks through all nodes
+    compile = (nodes) ->
+      for key, value of nodes
+        if typeof value is 'object'
+          # if we have an object with a code property
+          # we compile the code
+          value.code = compileCoffee value.code if value and value.code
+          compile(value)
+            
     compile(ast)
-    
-    # compile the initializer
-    ast.initializer.code = compileCoffee ast.initializer.code if ast.initializer
+
+
+
 
 
 # Export
