@@ -82,6 +82,13 @@ suite 'peg-coffee', ->
         '''
         expect(tryParse parser, "a").to.equal "2"
 
+      test 'empty initializer scope', ->
+        parser = PEG.buildParser '''
+          start = a { @ }
+          a     = "a" { @value = "a" }
+        '''
+        expect(tryParse parser, "a").to.eql(value: "a")
+
       suite 'predicates', ->
         suite 'semantic not code', ->
           test 'success on |false| return', ->

@@ -33,27 +33,26 @@ PEGCoffee = (CoffeeScript) ->
 
     # First we need compile the initializer
     # if there is one
-    if ast.initializer?
-      # The initializer gets its own scope which we save
-      # in __initializer for later use
-      wrappedInitializer = """
-        __initializer = ( ->
-          #{ast.initializer.code}
-          return this
-        ).call({})
-      """
-      ast.initializer.code = CoffeeScript.compile(wrappedInitializer, bare: true)
+    
+    unless ast.initializer?
+      ast.initializer =
+        type: 'initializer'
+        code: ''
+    # The initializer gets its own scope which we save
+    # in __initializer for later use
+    wrappedInitializer = """
+      __initializer = ( ->
+        #{ast.initializer.code}
+        return this
+      ).call({})
+    """
+    ast.initializer.code = CoffeeScript.compile(wrappedInitializer, bare: true)
 
                     
     compileNode = (code) ->
       # We inject the scope of the initializer if it exists
       # into the function that calls the action code
-      wrappedCode = """
-      if __initializer?
-        return ( -> #{code} ).apply(__initializer)
-      else
-        return ( -> #{code} ).apply()
-      """
+      wrappedCode = "return ( -> #{code} ).apply(__initializer)"
       return CoffeeScript.compile(wrappedCode, bare: true)
 
     

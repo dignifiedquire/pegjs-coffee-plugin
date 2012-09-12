@@ -66,6 +66,13 @@
           parser = PEG.buildParser('{\n  @val = "#{1+1}"\n}\nstart\n  = "a" { @val }');
           return expect(tryParse(parser, "a")).to.equal("2");
         });
+        test('empty initializer scope', function() {
+          var parser;
+          parser = PEG.buildParser('start = a { @ }\na     = "a" { @value = "a" }');
+          return expect(tryParse(parser, "a")).to.eql({
+            value: "a"
+          });
+        });
         return suite('predicates', function() {
           suite('semantic not code', function() {
             test('success on |false| return', function() {

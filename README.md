@@ -53,9 +53,21 @@ PEGCoffee.remove PEG
 PEG.compile(..)
 ```
 
+### Added Features
+You now have a save scope shared between all actions and predicates. 
+To begin it is empty, then all declarations from the initializer are
+added. Afterwards you can add and remove stuff as much as you like.
+This scope is there even if you don't use the initializer. So you can
+do something like the following.
+```coffee-script
+start = a { @result }
+a      = "a" { @result = "a" }
+```
+And this will correctly return `"a"` if you call `parse("a")`.
+
 ### Syntax changes
 There is no need to call `return` anymore. You can just do
-```xcoffee-script
+```coffee-script
 start = a:"a" { "Great Stuff" }
 ```
 which is the equivalent of

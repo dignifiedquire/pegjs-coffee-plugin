@@ -29,19 +29,22 @@
       },
       pass: function(ast) {
         var compile, compileNode, wrappedInitializer;
-        if (ast.initializer != null) {
-          wrappedInitializer = "__initializer = ( ->\n  " + ast.initializer.code + "\n  return this\n).call({})";
-          ast.initializer.code = CoffeeScript.compile(wrappedInitializer, {
-            bare: true
-          });
+        if (ast.initializer == null) {
+          ast.initializer = {
+            type: 'initializer',
+            code: ''
+          };
         }
+        wrappedInitializer = "__initializer = ( ->\n  " + ast.initializer.code + "\n  return this\n).call({})";
+        ast.initializer.code = CoffeeScript.compile(wrappedInitializer, {
+          bare: true
+        });
         compileNode = function(code) {
-          var comp, wrappedCode;
-          wrappedCode = "if __initializer?\n  return ( -> " + code + " ).apply(__initializer)\nelse\n  return ( -> " + code + " ).apply()";
-          comp = CoffeeScript.compile(wrappedCode, {
+          var wrappedCode;
+          wrappedCode = "return ( -> " + code + " ).apply(__initializer)";
+          return CoffeeScript.compile(wrappedCode, {
             bare: true
           });
-          return comp;
         };
         compile = function(nodes) {
           var key, value, _results;
