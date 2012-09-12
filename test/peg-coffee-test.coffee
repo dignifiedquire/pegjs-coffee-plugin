@@ -8,13 +8,13 @@ if require?
   CoffeeScript  = require 'coffee-script'
   expect        = require 'expect.js'
   PEG           = require 'pegjs'
-  PEGCoffee     = require '../lib/peg-coffee'
+  pegCoffee     = require '../lib/peg-coffee'
 else
   # Browser
   CoffeeScript = global.CoffeeScript
   expect = global.expect
   PEG = global.PEG
-  PEGCoffee = global.PEGCoffee
+  pegCoffee = global.pegCoffee
 
 # Helper functions
 tryParse = (parser, text) ->
@@ -27,7 +27,7 @@ tryParse = (parser, text) ->
 # Test suite for the plugin  
 suite 'peg-coffee', ->
   setup ->
-    PEGCoffee.initialize PEG
+    pegCoffee.initialize PEG
     
   suite 'initialize plugin', ->
     
@@ -48,13 +48,13 @@ suite 'peg-coffee', ->
       expect(appliedPassNames).to.eql expectedPassNames
 
     test 'pass should only be added once', ->
-      PEGCoffee.initialize PEG
-      PEGCoffee.initialize PEG
+      pegCoffee.initialize PEG
+      pegCoffee.initialize PEG
 
       expect(PEG.compiler.appliedPassNames.length).to.equal 6
 
     test 'removes itself when remove() is called', ->
-      PEGCoffee.remove PEG
+      pegCoffee.remove PEG
       appliedPassNames = PEG.compiler.appliedPassNames
       expectedPassNames = [
         'reportMissingRules'

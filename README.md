@@ -24,7 +24,7 @@ $ npm install peg-coffee
 Then in your code call
 ```coffee-script
 PEG = require 'pegjs'
-PEGCoffee = require 'peg-coffee'
+pegCoffee = require 'peg-coffee'
 ```
 
 #### Browser
@@ -42,13 +42,13 @@ Now include all needed scripts in your html file like this.
 After you have loaded all scripts you can do
 
 ```coffee-script
-PEGCoffee.initialize PEG
+pegCoffee.initialize PEG
 # From here on out you can use CoffeeScript in your actions
 PEG.compile(..)
 ```
 If you don't need it anymore you can do the following
 ```coffee-script
-PEGCoffee.remove PEG
+pegCoffee.remove PEG
 # From here on out everything is back to the way it was before
 PEG.compile(..)
 ```

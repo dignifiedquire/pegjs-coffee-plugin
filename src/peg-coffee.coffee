@@ -9,7 +9,7 @@ PASS_NAME = 'compileFromCoffeeScript'
 #
 # the module itself
 # 
-PEGCoffee = (CoffeeScript) ->
+pegCoffee = (CoffeeScript) ->
   initialize: (PEG) ->
     CoffeeScript ?= global.CoffeeScript
 
@@ -74,12 +74,12 @@ PEGCoffee = (CoffeeScript) ->
 # usable for AMD, node.js and the browser
 
 ((define) ->
-  define 'PEGCoffee', (require) ->
+  define 'pegCoffee', (require) ->
     # require dependencies here
     CoffeeScript = require 'coffee-script'
     
     # the module definition is returned
-    return PEGCoffee(CoffeeScript)
+    return pegCoffee(CoffeeScript)
 )(if typeof define is 'function' and define.amd then define else (id, factory) ->
   if exports?
     # Node.js
