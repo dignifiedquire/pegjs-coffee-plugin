@@ -49,14 +49,13 @@ PEG.compile(..)
 If you don't need it anymore you can do the following
 ```coffee-script
 PEGCoffee.remove PEG
-
 # From here on out everything is back to the way it was before
 PEG.compile(..)
 ```
 
 ### Caveats
 
-If you declare variables in your initializer the need to be prefixed
+If you declare variables in your initializer they need to be prefixed
 with `global` and can be called with `this`. 
 ```coffee-script
 {
@@ -101,11 +100,11 @@ $ make build
 
 # Running the tests
 
-For the node.js test run
+For the Node.js tests run
 ```bash
 $ make test
 ```
-and for the browser
+and for the browser tests
 ```bash
 $ make test-browser
 ```
@@ -115,9 +114,7 @@ and open your browser on [localhost:3000](http://localhost:3000).
 
 # Todo
 
-* expressions nested in rules are not working yet!
 * more tests
 * make npm package
-* add function to unload the plugin
 * make bower package
 * add CLI 
