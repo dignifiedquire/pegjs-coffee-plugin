@@ -58,40 +58,40 @@
       return suite('simple CoffeeScript', function() {
         test('action', function() {
           var parser;
-          parser = PEG.buildParser('start = "a" { return "#{1+1}" }');
+          parser = PEG.buildParser('start = "a" { "#{1+1}" }');
           return expect(tryParse(parser, "a")).to.equal("2");
         });
         test('initializer', function() {
           var parser;
-          parser = PEG.buildParser('{\n  global.val = "#{1+1}"\n}\nstart\n  = "a" { return @val }');
+          parser = PEG.buildParser('{\n  @val = "#{1+1}"\n}\nstart\n  = "a" { @val }');
           return expect(tryParse(parser, "a")).to.equal("2");
         });
         return suite('predicates', function() {
           suite('semantic not code', function() {
             test('success on |false| return', function() {
               var parser;
-              parser = PEG.buildParser('start\n  = !{return typeof Array is "undefined"}');
+              parser = PEG.buildParser('start\n  = !{typeof Array is "undefined"}');
               return expect(tryParse(parser, "")).to.equal("");
             });
             test('failure on |true| return', function() {
               var parser;
-              parser = PEG.buildParser('start\n  = !{return typeof Array isnt "undefined"}');
+              parser = PEG.buildParser('start\n  = !{typeof Array isnt "undefined"}');
               return expect(tryParse(parser, "")).to.be.a(Error);
             });
             return suite('variable use', function() {
               test('can use label variables', function() {
                 var parser;
-                parser = PEG.buildParser('start\n  = a:"a" &{return a is "a"}');
+                parser = PEG.buildParser('start\n  = a:"a" &{a is "a"}');
                 return expect(tryParse(parser, "a")).to.eql(["a", ""]);
               });
               test('can use the |offset| variable to get the current parse position', function() {
                 var parser;
-                parser = PEG.buildParser('start\n  = "a" &{return offset is 1}');
+                parser = PEG.buildParser('start\n  = "a" &{offset is 1}');
                 return expect(tryParse(parser, "a")).to.eql(["a", ""]);
               });
               return test('can use the |line| and |column| variables to get the current line and column', function() {
                 var parser;
-                parser = PEG.buildParser('{\n  global.result = "test"\n}\nstart = line (nl+ line)* {return @result }\nline  = thing (" "+ thing)*\nthing = digit / mark\ndigit = [0-9]\nmark  = &{ @result = [line, column]; return true } "x"\nnl    = ("\\r" / "\\n" / "\\u2028" / "\\u2029")', {
+                parser = PEG.buildParser('{\n  @result = "test"\n}\nstart = line (nl+ line)* {@result }\nline  = thing (" "+ thing)*\nthing = digit / mark\ndigit = [0-9]\nmark  = &{ @result = [line, column]; true } "x"\nnl    = ("\\r" / "\\n" / "\\u2028" / "\\u2029")', {
                   trackLineAndColumn: true
                 });
                 return expect(tryParse(parser, "1\n2\n\n3\n\n\n4 5 x")).to.eql([7, 5]);
@@ -101,28 +101,28 @@
           return suite('semantic and code', function() {
             test('success on |true| return', function() {
               var parser;
-              parser = PEG.buildParser('start\n  = &{return typeof Array isnt "undefined"}');
+              parser = PEG.buildParser('start\n  = &{typeof Array isnt "undefined"}');
               return expect(tryParse(parser, "")).to.equal("");
             });
             test('failure on |false| return', function() {
               var parser;
-              parser = PEG.buildParser('start\n  = &{return typeof Array is "undefined"}');
+              parser = PEG.buildParser('start\n  = &{typeof Array is "undefined"}');
               return expect(tryParse(parser, "")).to.be.a(Error);
             });
             return suite('variable use', function() {
               test('can use label variables', function() {
                 var parser;
-                parser = PEG.buildParser('start\n  = a:"a" !{return a isnt "a"}');
+                parser = PEG.buildParser('start\n  = a:"a" !{a isnt "a"}');
                 return expect(tryParse(parser, "a")).to.eql(["a", ""]);
               });
               test('can use the |offset| variable to get the current parse position', function() {
                 var parser;
-                parser = PEG.buildParser('start\n  = "a" !{return offset isnt 1}');
+                parser = PEG.buildParser('start\n  = "a" !{offset isnt 1}');
                 return expect(tryParse(parser, "a")).to.eql(["a", ""]);
               });
               return test('can use the |line| and |column| variables to get the current line and column', function() {
                 var parser;
-                parser = PEG.buildParser('{\n  global.result = "test"\n}\nstart = line (nl+ line)* {return @result }\nline  = thing (" "+ thing)*\nthing = digit / mark\ndigit = [0-9]\nmark  = !{ @result = [line, column]; return false } "x"\nnl    = ("\\r" / "\\n" / "\\u2028" / "\\u2029")', {
+                parser = PEG.buildParser('{\n  @result = "test"\n}\nstart = line (nl+ line)* {@result }\nline  = thing (" "+ thing)*\nthing = digit / mark\ndigit = [0-9]\nmark  = !{ @result = [line, column]; false } "x"\nnl    = ("\\r" / "\\n" / "\\u2028" / "\\u2029")', {
                   trackLineAndColumn: true
                 });
                 return expect(tryParse(parser, "1\n2\n\n3\n\n\n4 5 x")).to.eql([7, 5]);

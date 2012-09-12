@@ -30,19 +30,42 @@ PEGCoffee = (CoffeeScript) ->
       delete PEG.compiler.passes[PASS_NAME]
 
   pass: (ast) ->
-    
-    compileCoffee = (code) ->
-      CoffeeScript.compile(code, bare: true)
 
+    # First we need compile the initializer
+    # if there is one
+    if ast.initializer?
+      # The initializer gets its own scope which we save
+      # in __initializer for later use
+      wrappedInitializer = """
+        __initializer = ( ->
+          #{ast.initializer.code}
+          return this
+        ).call({})
+      """
+      ast.initializer.code = CoffeeScript.compile(wrappedInitializer, bare: true)
+
+                    
+    compileNode = (code) ->
+      # We inject the scope of the initializer if it exists
+      # into the function that calls the action code
+      wrappedCode = """
+      if __initializer?
+        return ( -> #{code} ).apply(__initializer)
+      else
+        return ( -> #{code} ).apply()
+      """
+      return CoffeeScript.compile(wrappedCode, bare: true)
+
+    
+    
     # recursivley walks through all nodes
     compile = (nodes) ->
       for key, value of nodes
-        if typeof value is 'object'
+        if value? and typeof value is 'object' and value.type isnt 'initializer'
           # if we have an object with a code property
           # we compile the code
-          value.code = compileCoffee value.code if value and value.code
+          value.code = compileNode value.code if value.code
           compile(value)
-            
     compile(ast)
 
 

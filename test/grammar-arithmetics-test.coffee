@@ -31,19 +31,19 @@ start
   = additive
 
 additive
-  = left:multiplicative "+" right:additive { return left + right }
+  = left:multiplicative "+" right:additive { left + right }
   / multiplicative
 
 multiplicative
-  = left:primary "*" right:multiplicative { return left * right }
+  = left:primary "*" right:multiplicative { left * right }
   / primary
 
 primary
   = integer
-  / "(" additive:additive ")" { return additive }
+  / "(" additive:additive ")" { additive }
 
 integer "integer"
-  = digits:[0-9]+ { return parseInt digits.join(""), 10 }
+  = digits:[0-9]+ { parseInt digits.join(""), 10 }
 '''
 
 suite 'arithmetic grammar', ->

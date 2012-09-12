@@ -24,7 +24,7 @@
     return result;
   };
 
-  grammar = 'start\n  = additive\n\nadditive\n  = left:multiplicative "+" right:additive { return left + right }\n  / multiplicative\n\nmultiplicative\n  = left:primary "*" right:multiplicative { return left * right }\n  / primary\n\nprimary\n  = integer\n  / "(" additive:additive ")" { return additive }\n\ninteger "integer"\n  = digits:[0-9]+ { return parseInt digits.join(""), 10 }';
+  grammar = 'start\n  = additive\n\nadditive\n  = left:multiplicative "+" right:additive { left + right }\n  / multiplicative\n\nmultiplicative\n  = left:primary "*" right:multiplicative { left * right }\n  / primary\n\nprimary\n  = integer\n  / "(" additive:additive ")" { additive }\n\ninteger "integer"\n  = digits:[0-9]+ { parseInt digits.join(""), 10 }';
 
   suite('arithmetic grammar', function() {
     setup(function() {

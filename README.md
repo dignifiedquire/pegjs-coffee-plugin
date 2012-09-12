@@ -53,16 +53,23 @@ PEGCoffee.remove PEG
 PEG.compile(..)
 ```
 
-### Caveats
+### Syntax changes
+There is no need to call `return` anymore. You can just do
+``coffee-script
+start = a:"a" { "Great Stuff" }
+```
+which is the equivalent of
+```javascript
+start = a:"a" { return "Great Stuff"; }
+```
 
-If you declare variables in your initializer they need to be prefixed
-with `global` and can be called with `this`. 
+If you declare variables in your initializer you set them on `this`.
 ```coffee-script
 {
-  global.result = ""
+  @result = ""
 }
 start
-  = awesome / rule { return @result }
+  = awesome / rule { @result }
 awesome
   = "awesome" { @result = "awesome" }
 rule
