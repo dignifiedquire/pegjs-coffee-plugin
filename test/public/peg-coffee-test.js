@@ -30,10 +30,18 @@
         expectedPassNames = ['reportMissingRules', 'reportLeftRecursion', 'removeProxyRules', 'compileFromCoffeeScript', 'computeVarNames', 'computeParams'];
         return expect(appliedPassNames).to.eql(expectedPassNames);
       });
-      return test('pass should only be added once', function() {
+      test('pass should only be added once', function() {
         PEGCoffee.initialize(PEG);
         PEGCoffee.initialize(PEG);
         return expect(PEG.compiler.appliedPassNames.length).to.equal(6);
+      });
+      return test('removes itself when remove() is called', function() {
+        var appliedPassNames, expectedPassNames;
+        PEGCoffee.remove(PEG);
+        appliedPassNames = PEG.compiler.appliedPassNames;
+        expectedPassNames = ['reportMissingRules', 'reportLeftRecursion', 'removeProxyRules', 'computeVarNames', 'computeParams'];
+        expect(appliedPassNames).to.eql(expectedPassNames);
+        return expect(PEG.compiler.passes).to.not.have.property('compileFromCoffeeScript');
       });
     });
     return suite('compile grammar', function() {
@@ -45,7 +53,7 @@
         });
         test('initializer', function() {
           var parser;
-          parser = PEG.buildParser('{\n  val = "#{1+1}"\n}\nstart\n  = "a" { return val }');
+          parser = PEG.buildParser('{\n  global.val = "#{1+1}"\n}\nstart\n  = "a" { return @val }');
           return expect(parser.parse("a")).to.equal("2");
         });
         suite('predicates', function() {
@@ -66,10 +74,17 @@
             parser = PEG.buildParser('start\n  = a:"a" &{return a is "a"}');
             return expect(parser.parse("a")).to.eql(["a", ""]);
           });
-          return test('can use the |offset| variable to get the current parse position', function() {
+          test('can use the |offset| variable to get the current parse position', function() {
             var parser;
             parser = PEG.buildParser('start\n  = "a" &{return offset is 1}');
             return expect(parser.parse("a")).to.eql(["a", ""]);
+          });
+          return test('can use the |line| and |column| variables to get the current line and column', function() {
+            var parser;
+            parser = PEG.buildParser('{\n  global.result = "test"\n}\nstart = line (nl+ line)* {return @result }\nline  = thing (" "+ thing)*\nthing = digit / mark\ndigit = [0-9]\nmark  = &{ @result = [line, column]; return true } "x"\nnl    = ("\\r" / "\\n" / "\\u2028" / "\\u2029")', {
+              trackLineAndColumn: true
+            });
+            return expect(parser.parse("1\n2\n\n3\n\n\n4 5 x")).to.eql([7, 5]);
           });
         });
       });

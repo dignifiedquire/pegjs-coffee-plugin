@@ -22,6 +22,12 @@ PEGCoffee = (CoffeeScript) ->
       index = appliedPassNames.indexOf 'allocateRegister'
       appliedPassNames.splice index - 1, 0, PASS_NAME
 
+  remove: (PEG) ->
+    appliedPassNames = PEG.compiler.appliedPassNames
+    index = appliedPassNames.indexOf(PASS_NAME)
+    if index > -1
+      appliedPassNames.splice index, 1
+      delete PEG.compiler.passes[PASS_NAME]
 
   pass: (ast) ->
     
@@ -41,8 +47,6 @@ PEGCoffee = (CoffeeScript) ->
 
 
 
-
-
 # Export
 # Use https://gist.github.com/1262861
 # usable for AMD, node.js and the browser
@@ -55,7 +59,7 @@ PEGCoffee = (CoffeeScript) ->
     # the module definition is returned
     return PEGCoffee(CoffeeScript)
 )(if typeof define is 'function' and define.amd then define else (id, factory) ->
-  if typeof exports isnt 'undefined'
+  if exports?
     # Node.js
     module.exports = factory(require)
   else

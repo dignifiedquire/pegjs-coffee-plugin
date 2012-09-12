@@ -46,6 +46,19 @@ suite 'peg-coffee', ->
 
       expect(PEG.compiler.appliedPassNames.length).to.equal 6
 
+    test 'removes itself when remove() is called', ->
+      PEGCoffee.remove PEG
+      appliedPassNames = PEG.compiler.appliedPassNames
+      expectedPassNames = [
+        'reportMissingRules'
+        'reportLeftRecursion'
+        'removeProxyRules'
+        'computeVarNames'
+        'computeParams'
+      ]
+      expect(appliedPassNames).to.eql expectedPassNames
+      expect(PEG.compiler.passes).to.not.have.property 'compileFromCoffeeScript'
+    
   suite 'compile grammar', ->
     suite 'simple CoffeeScript', ->
       test 'action', ->
@@ -55,10 +68,10 @@ suite 'peg-coffee', ->
       test 'initializer', ->
         parser = PEG.buildParser '''
           {
-            val = "#{1+1}"
+            global.val = "#{1+1}"
           }
           start
-            = "a" { return val }
+            = "a" { return @val }
         '''
         expect(parser.parse "a").to.equal "2"
 
@@ -92,3 +105,18 @@ suite 'peg-coffee', ->
               = "a" &{return offset is 1}
           '''
           expect(parser.parse "a").to.eql ["a", ""]
+
+        test 'can use the |line| and |column| variables to get the current line and column', ->
+          parser = PEG.buildParser '''
+            {
+              global.result = "test"
+            }
+            start = line (nl+ line)* {return @result }
+            line  = thing (" "+ thing)*
+            thing = digit / mark
+            digit = [0-9]
+            mark  = &{ @result = [line, column]; return true } "x"
+            nl    = ("\\r" / "\\n" / "\\u2028" / "\\u2029")
+          ''', trackLineAndColumn: true
+          
+          expect(parser.parse "1\n2\n\n3\n\n\n4 5 x").to.eql [7, 5]
