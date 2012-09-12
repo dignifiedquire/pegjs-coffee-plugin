@@ -28,7 +28,7 @@ install:
 
 
 test: build
-	$(MOCHA) 
+	$(MOCHA) --ignore-leaks
 
 test-browser: build-browser
 	$(HTTP_SERVER) $(PUBLIC)
