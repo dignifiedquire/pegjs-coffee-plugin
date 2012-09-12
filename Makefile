@@ -19,7 +19,7 @@ build:
 
 build-browser: build
 	cp $(LIB)/peg-coffee.js $(PUBLIC)/peg-coffee.js
-	$(COFFEE) -c -o $(PUBLIC) $(TEST)/peg-coffee-test.coffee
+	$(COFFEE) -c -o $(PUBLIC) $(TEST)
 
 #minify: $(LIBMIN)
 

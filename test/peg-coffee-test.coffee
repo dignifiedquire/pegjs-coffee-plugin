@@ -3,19 +3,18 @@
 # 
 
 # Load dependencies
-if typeof require isnt 'undefined'
+if require?
   # Node.js
-  CoffeeScript = require 'coffee-script'
-  expect = require 'expect.js'
-  PEG = require 'pegjs'
-  PEGCoffee = require '../lib/peg-coffee'
+  CoffeeScript  = require 'coffee-script'
+  expect        = require 'expect.js'
+  PEG           = require 'pegjs'
+  PEGCoffee     = require '../lib/peg-coffee'
 else
   # Browser
   CoffeeScript = global.CoffeeScript
   expect = global.expect
   PEG = global.PEG
   PEGCoffee = global.PEGCoffee
-
 
 # Helper functions
 tryParse = (parser, text) ->
@@ -24,8 +23,7 @@ tryParse = (parser, text) ->
   catch e
     result = e
   return result
-
-
+  
 # Test suite for the plugin  
 suite 'peg-coffee', ->
   setup ->
@@ -173,5 +171,4 @@ suite 'peg-coffee', ->
               ''', trackLineAndColumn: true
               
               expect(tryParse parser, "1\n2\n\n3\n\n\n4 5 x").to.eql [7, 5]
-
 
