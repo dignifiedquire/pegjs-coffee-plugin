@@ -98,6 +98,35 @@ suite 'peg-coffee', ->
                 = !{return typeof Array isnt "undefined"}
             '''
             expect(tryParse parser, "").to.be.a Error
+          suite 'variable use', ->
+            test 'can use label variables', ->
+              parser = PEG.buildParser '''
+                start
+                  = a:"a" &{return a is "a"}
+              '''
+              expect(tryParse parser, "a").to.eql ["a", ""]
+            
+            test 'can use the |offset| variable to get the current parse position', ->
+              parser = PEG.buildParser '''
+                start
+                  = "a" &{return offset is 1}
+              '''
+              expect(tryParse parser, "a").to.eql ["a", ""]
+
+            test 'can use the |line| and |column| variables to get the current line and column', ->
+              parser = PEG.buildParser '''
+                {
+                  global.result = "test"
+                }
+                start = line (nl+ line)* {return @result }
+                line  = thing (" "+ thing)*
+                thing = digit / mark
+                digit = [0-9]
+                mark  = &{ @result = [line, column]; return true } "x"
+                nl    = ("\\r" / "\\n" / "\\u2028" / "\\u2029")
+              ''', trackLineAndColumn: true
+              
+              expect(tryParse parser, "1\n2\n\n3\n\n\n4 5 x").to.eql [7, 5]
 
         suite 'semantic and code', ->
           test 'success on |true| return', ->
@@ -114,64 +143,35 @@ suite 'peg-coffee', ->
             expect(tryParse parser, "").to.be.a Error
 
 
-      suite 'variable use', ->
-        test 'can use label variables', ->
-          parser = PEG.buildParser '''
-            start
-              = a:"a" &{return a is "a"}
-          '''
-          expect(tryParse parser, "a").to.eql ["a", ""]
-        
-        test 'can use the |offset| variable to get the current parse position', ->
-          parser = PEG.buildParser '''
-            start
-              = "a" &{return offset is 1}
-          '''
-          expect(tryParse parser, "a").to.eql ["a", ""]
 
-        test 'can use the |line| and |column| variables to get the current line and column', ->
-          parser = PEG.buildParser '''
-            {
-              global.result = "test"
-            }
-            start = line (nl+ line)* {return @result }
-            line  = thing (" "+ thing)*
-            thing = digit / mark
-            digit = [0-9]
-            mark  = &{ @result = [line, column]; return true } "x"
-            nl    = ("\\r" / "\\n" / "\\u2028" / "\\u2029")
-          ''', trackLineAndColumn: true
-          
-          expect(tryParse parser, "1\n2\n\n3\n\n\n4 5 x").to.eql [7, 5]
+          suite 'variable use', ->
+            test 'can use label variables', ->
+              parser = PEG.buildParser '''
+                start
+                  = a:"a" !{return a isnt "a"}
+              '''
+              expect(tryParse parser, "a").to.eql ["a", ""]
+            
+            test 'can use the |offset| variable to get the current parse position', ->
+              parser = PEG.buildParser '''
+                start
+                  = "a" !{return offset isnt 1}
+              '''
+              expect(tryParse parser, "a").to.eql ["a", ""]
 
-      suite 'variable use in semantic not code', ->
-        test 'can use label variables', ->
-          parser = PEG.buildParser '''
-            start
-              = a:"a" !{return a isnt "a"}
-          '''
-          expect(tryParse parser, "a").to.eql ["a", ""]
-        
-        test 'can use the |offset| variable to get the current parse position', ->
-          parser = PEG.buildParser '''
-            start
-              = "a" !{return offset isnt 1}
-          '''
-          expect(tryParse parser, "a").to.eql ["a", ""]
-
-        test 'can use the |line| and |column| variables to get the current line and column', ->
-          parser = PEG.buildParser '''
-            {
-              global.result = "test"
-            }
-            start = line (nl+ line)* {return @result }
-            line  = thing (" "+ thing)*
-            thing = digit / mark
-            digit = [0-9]
-            mark  = !{ @result = [line, column]; return false } "x"
-            nl    = ("\\r" / "\\n" / "\\u2028" / "\\u2029")
-          ''', trackLineAndColumn: true
-          
-          expect(tryParse parser, "1\n2\n\n3\n\n\n4 5 x").to.eql [7, 5]
+            test 'can use the |line| and |column| variables to get the current line and column', ->
+              parser = PEG.buildParser '''
+                {
+                  global.result = "test"
+                }
+                start = line (nl+ line)* {return @result }
+                line  = thing (" "+ thing)*
+                thing = digit / mark
+                digit = [0-9]
+                mark  = !{ @result = [line, column]; return false } "x"
+                nl    = ("\\r" / "\\n" / "\\u2028" / "\\u2029")
+              ''', trackLineAndColumn: true
+              
+              expect(tryParse parser, "1\n2\n\n3\n\n\n4 5 x").to.eql [7, 5]
 
 
