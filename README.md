@@ -42,9 +42,32 @@ Now include all needed scripts in your html file like this.
 After you have loaded all scripts you can do
 
 ```coffee-script
-PEGCoffee.initialize(PEG)
+PEGCoffee.initialize PEG
 # From here on out you can use CoffeeScript in your actions
 PEG.compile(..)
+```
+If you don't need it anymore you can do the following
+```coffee-script
+PEGCoffee.remove PEG
+
+# From here on out everything is back to the way it was before
+PEG.compile(..)
+```
+
+### Caveats
+
+If you declare variables in your initializer the need to be prefixed
+with `global` and can be called with `this`. 
+```coffee-script
+{
+  global.result = ""
+}
+start
+  = awesome / rule { return @result }
+awesome
+  = "awesome" { @result = "awesome" }
+rule
+  = "rule" { @result = "rule }
 ```
 
 
