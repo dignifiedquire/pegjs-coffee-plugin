@@ -61,9 +61,16 @@ This scope is there even if you don't use the initializer. So you can
 do something like the following.
 ```coffee-script
 start = a { @result }
-a      = "a" { @result = "a" }
+a = "a" { @result = "awesome" }
 ```
-And this will correctly return `"a"` if you call `parse("a")`.
+And this will correctly return `"awesome"` if you call `parse("a")`.
+
+Also all variable assignments in an action are safely scoped to the
+action. `{ result = "awesome" }` becomes `{ var result; result =
+"awesome" }`. This gives you the ability to explicitly share variables
+with other actions via `this` and the security to just assign
+variables for local use like you are used to when writing CoffeeScript.
+
 
 ### Syntax changes
 There is no need to call `return` anymore. You can just do
