@@ -28,7 +28,7 @@
 
   suite('arithmetic grammar', function() {
     setup(function() {
-      return pegCoffee.initialize(PEG);
+      return pegCoffee.addTo(PEG);
     });
     return test('parses 2*(3+4)', function() {
       var parser;

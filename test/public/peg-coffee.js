@@ -6,7 +6,7 @@
 
   pegCoffee = function(CoffeeScript) {
     return {
-      initialize: function(PEG) {
+      addTo: function(PEG) {
         var appliedPassNames, index;
         if (CoffeeScript == null) {
           CoffeeScript = global.CoffeeScript;
@@ -18,7 +18,7 @@
           return appliedPassNames.splice(index - 1, 0, PASS_NAME);
         }
       },
-      remove: function(PEG) {
+      removeFrom: function(PEG) {
         var appliedPassNames, index;
         appliedPassNames = PEG.compiler.appliedPassNames;
         index = appliedPassNames.indexOf(PASS_NAME);

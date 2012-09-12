@@ -26,7 +26,7 @@
 
   suite('peg-coffee', function() {
     setup(function() {
-      return pegCoffee.initialize(PEG);
+      return pegCoffee.addTo(PEG);
     });
     suite('initialize plugin', function() {
       test('adds pass to passes', function() {
@@ -41,13 +41,13 @@
         return expect(appliedPassNames).to.eql(expectedPassNames);
       });
       test('pass should only be added once', function() {
-        pegCoffee.initialize(PEG);
-        pegCoffee.initialize(PEG);
+        pegCoffee.addTo(PEG);
+        pegCoffee.addTo(PEG);
         return expect(PEG.compiler.appliedPassNames.length).to.equal(6);
       });
       return test('removes itself when remove() is called', function() {
         var appliedPassNames, expectedPassNames;
-        pegCoffee.remove(PEG);
+        pegCoffee.removeFrom(PEG);
         appliedPassNames = PEG.compiler.appliedPassNames;
         expectedPassNames = ['reportMissingRules', 'reportLeftRecursion', 'removeProxyRules', 'computeVarNames', 'computeParams'];
         expect(appliedPassNames).to.eql(expectedPassNames);

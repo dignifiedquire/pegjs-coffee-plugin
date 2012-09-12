@@ -10,7 +10,7 @@ PASS_NAME = 'compileFromCoffeeScript'
 # the module itself
 # 
 pegCoffee = (CoffeeScript) ->
-  initialize: (PEG) ->
+  addTo: (PEG) ->
     CoffeeScript ?= global.CoffeeScript
 
     # inject our pass to the passes of peg.js
@@ -22,7 +22,7 @@ pegCoffee = (CoffeeScript) ->
       index = appliedPassNames.indexOf 'allocateRegister'
       appliedPassNames.splice index - 1, 0, PASS_NAME
 
-  remove: (PEG) ->
+  removeFrom: (PEG) ->
     appliedPassNames = PEG.compiler.appliedPassNames
     index = appliedPassNames.indexOf(PASS_NAME)
     if index > -1

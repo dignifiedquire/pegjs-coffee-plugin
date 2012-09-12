@@ -42,13 +42,13 @@ Now include all needed scripts in your html file like this.
 After you have loaded all scripts you can do
 
 ```coffee-script
-pegCoffee.initialize PEG
+pegCoffee.addTo PEG
 # From here on out you can use CoffeeScript in your actions
 PEG.compile(..)
 ```
 If you don't need it anymore you can do the following
 ```coffee-script
-pegCoffee.remove PEG
+pegCoffee.removeFrom PEG
 # From here on out everything is back to the way it was before
 PEG.compile(..)
 ```

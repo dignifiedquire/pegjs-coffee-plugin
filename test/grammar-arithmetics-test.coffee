@@ -48,7 +48,7 @@ integer "integer"
 
 suite 'arithmetic grammar', ->
   setup ->
-    pegCoffee.initialize PEG
+    pegCoffee.addTo PEG
     
   test 'parses 2*(3+4)', ->
     parser = PEG.buildParser grammar

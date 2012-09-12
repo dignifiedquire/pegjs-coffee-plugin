@@ -27,7 +27,7 @@ tryParse = (parser, text) ->
 # Test suite for the plugin  
 suite 'peg-coffee', ->
   setup ->
-    pegCoffee.initialize PEG
+    pegCoffee.addTo PEG
     
   suite 'initialize plugin', ->
     
@@ -48,13 +48,13 @@ suite 'peg-coffee', ->
       expect(appliedPassNames).to.eql expectedPassNames
 
     test 'pass should only be added once', ->
-      pegCoffee.initialize PEG
-      pegCoffee.initialize PEG
+      pegCoffee.addTo PEG
+      pegCoffee.addTo PEG
 
       expect(PEG.compiler.appliedPassNames.length).to.equal 6
 
     test 'removes itself when remove() is called', ->
-      pegCoffee.remove PEG
+      pegCoffee.removeFrom PEG
       appliedPassNames = PEG.compiler.appliedPassNames
       expectedPassNames = [
         'reportMissingRules'
