@@ -1,11 +1,11 @@
-peg-coffee
+PEGjs Coffee Plugin
 ==========
 
-Plugin for PEG.js to use coffee script in actions.
+Plugin for PEG.js to use CoffeeScript in actions. Because all I want
+for christmas is CoffeeScript.
 
 ---
-
-** This plugin is not finished yet, so it's not available via `npm` !!**
+This plugin is not finished yet, so it's not available via `npm` !!
 
 ---
 
@@ -19,41 +19,51 @@ Plugin for PEG.js to use coffee script in actions.
 #### Node.js
 
 ```bash
-$ npm install peg-coffee
+$ npm install pegjs-coffee-plugin
 ```
 Then in your code call
 ```coffee-script
 PEG = require 'pegjs'
-pegCoffee = require 'peg-coffee'
+PEGjsCoffeePlugin = require 'pegjs-coffee-plugin'
 ```
 
 #### Browser
 
 Download
-[peg-coffee.js](https://raw.github.com/Dignifiedquire/peg-coffee/master/lib/peg-coffee.js).
+[pegjs-coffee-plugin.js](https://raw.github.com/Dignifiedquire/peg-coffee/master/lib/peg-coffee.js).
 Now include all needed scripts in your html file like this.
 ```html
 <script src="peg.js"></script>
 <script src=coffee-script.js"></script>
-<script src="peg-coffee.js"></script>
+<script src="pegjs-coffee-plugin.js"></script>
 ```
 
 ## Usage
+
+### Script
 After you have loaded all scripts you can do
 
 ```coffee-script
-pegCoffee.addTo PEG
+PEGjsCoffeePlugin.addTo PEG
 # From here on out you can use CoffeeScript in your actions
 PEG.compile(..)
 ```
 If you don't need it anymore you can do the following
 ```coffee-script
-pegCoffee.removeFrom PEG
+PEGjsCoffeePlugin.removeFrom PEG
 # From here on out everything is back to the way it was before
 PEG.compile(..)
 ```
+### Command line
+You can use the command line interface the same way you use the one by
+PEGjs. 
+```bash
+$ pegcoffee myGrammar.pegcoffee myCompiledGrammar.js
+```
+It defaults to use CoffeeScript but if you pass it the option `--js`
+you get the old Javascript back.
 
-### Added Features
+## Added Features
 You now have a save scope shared between all actions and predicates. 
 To begin it is empty, then all declarations from the initializer are
 added. Afterwards you can add and remove stuff as much as you like.
@@ -72,7 +82,7 @@ with other actions via `this` and the security to just assign
 variables for local use like you are used to when writing CoffeeScript.
 
 
-### Syntax changes
+## Syntax changes
 There is no need to call `return` anymore. You can just do
 ```coffee-script
 start = a:"a" { "Great Stuff" }
@@ -142,6 +152,7 @@ and open your browser on [localhost:3000](http://localhost:3000).
 # Todo
 
 * more tests
+* finish build process
 * make npm package
 * make bower package
-* add CLI 
+

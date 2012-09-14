@@ -9,13 +9,13 @@ if require?
   CoffeeScript  = require 'coffee-script'
   expect        = require 'expect.js'
   PEG           = require 'pegjs'
-  pegCoffee     = require '../lib/peg-coffee'
+  PEGjsCoffeePlugin     = require '../lib/pegjs-coffee-plugin'
 else
   # Browser
   CoffeeScript = global.CoffeeScript
   expect = global.expect
   PEG = global.PEG
-  pegCoffee = global.pegCoffee
+  PEGjsCoffeePlugin = global.PEGjsCoffeePlugin
 
 # Helper functions
 tryParse = (parser, text) ->
@@ -48,7 +48,7 @@ integer "integer"
 
 suite 'arithmetic grammar', ->
   setup ->
-    pegCoffee.addTo PEG
+    PEGjsCoffeePlugin.addTo PEG
     
   test 'parses 2*(3+4)', ->
     parser = PEG.buildParser grammar

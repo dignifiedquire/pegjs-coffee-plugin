@@ -18,7 +18,7 @@ build:
 	$(COFFEE) -c -o $(LIB) $(SRC)
 
 build-browser: build
-	cp $(LIB)/peg-coffee.js $(PUBLIC)/peg-coffee.js
+	cp $(LIB)/pegjs-coffee-plugin.js $(PUBLIC)/pegjs-coffee-plugin.js
 	$(COFFEE) -c -o $(PUBLIC) $(TEST)
 
 #minify: $(LIBMIN)

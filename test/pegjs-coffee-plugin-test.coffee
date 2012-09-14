@@ -8,7 +8,7 @@ if require?
   CoffeeScript  = require 'coffee-script'
   expect        = require 'expect.js'
   PEG           = require 'pegjs'
-  PEGjsCoffeePlugin     = require '../lib/peg-coffee'
+  PEGjsCoffeePlugin     = require '../lib/pegjs-coffee-plugin'
 else
   # Browser
   CoffeeScript = global.CoffeeScript
