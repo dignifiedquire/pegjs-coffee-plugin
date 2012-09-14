@@ -3,12 +3,12 @@
 util = require 'util'
 fs   = require 'fs'
 PEG  = require 'pegjs'
-pegCoffee = require '../lib/peg-coffee.js'
+PEGjsCoffeePlugin = require '../lib/peg-coffee.js'
 
 # Helpers
 
 
-printVersion = -> util.puts("PEG.js CoffeeScript Plugin #{pegCoffee.VERSION}")
+printVersion = -> util.puts("PEG.js CoffeeScript Plugin #{PEGjsCoffeePlugin.VERSION}")
 
 
 printHelp = ->
@@ -120,7 +120,7 @@ switch args.length
 
 
 readStream inputStream, (input) ->
-  pegCoffee.addTo PEG unless options.js
+  PEGjsCoffeePlugin.addTo PEG unless options.js
   try 
     parser = PEG.buildParser(input, options)
   catch e

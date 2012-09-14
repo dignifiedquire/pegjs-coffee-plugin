@@ -10,7 +10,7 @@ VERSION = '0.1.0'
 #
 # the module itself
 # 
-pegCoffee = (CoffeeScript) ->
+PEGjsCoffeePlugin = (CoffeeScript) ->
   VERSION: VERSION
   addTo: (PEG) ->
     CoffeeScript ?= global.CoffeeScript
@@ -76,12 +76,12 @@ pegCoffee = (CoffeeScript) ->
 # usable for AMD, node.js and the browser
 
 ((define) ->
-  define 'pegCoffee', (require) ->
+  define 'PEGjsCoffeePlugin', (require) ->
     # require dependencies here
     CoffeeScript = require 'coffee-script'
     
     # the module definition is returned
-    return pegCoffee(CoffeeScript)
+    return PEGjsCoffeePlugin(CoffeeScript)
 )(if typeof define is 'function' and define.amd then define else (id, factory) ->
   if exports?
     # Node.js
