@@ -5,11 +5,13 @@
 
 # set constants  
 PASS_NAME = 'compileFromCoffeeScript'
+VERSION = '0.1.0'
 
 #
 # the module itself
 # 
 pegCoffee = (CoffeeScript) ->
+  VERSION: VERSION
   addTo: (PEG) ->
     CoffeeScript ?= global.CoffeeScript
 

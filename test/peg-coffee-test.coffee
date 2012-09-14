@@ -30,7 +30,7 @@ suite 'peg-coffee', ->
     pegCoffee.addTo PEG
     
   suite 'initialize plugin', ->
-    
+
     test 'adds pass to passes', ->
       passes = PEG.compiler.passes
       expect(passes).to.have.property 'compileFromCoffeeScript'
@@ -65,6 +65,8 @@ suite 'peg-coffee', ->
       ]
       expect(appliedPassNames).to.eql expectedPassNames
       expect(PEG.compiler.passes).to.not.have.property 'compileFromCoffeeScript'
+  test 'has a version number', ->
+    expect(pegCoffee.VERSION).to.eql '0.1.0'
     
   suite 'compile grammar', ->
     suite 'simple CoffeeScript', ->
