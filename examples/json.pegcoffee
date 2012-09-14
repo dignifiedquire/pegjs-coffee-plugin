@@ -1,0 +1,117 @@
+/* JSON parser based on the grammar described at http://json.org/. */
+
+/* ===== Syntactical Elements ===== */
+
+start
+  = _ object:object { object }
+
+object
+  = "{" _ "}" _                 { {} }
+  / "{" _ members:members "}" _ { members }
+
+members
+  = head:pair tail:("," _ pair)* {
+      result = {}
+      result[head[0]] = head[1]
+      for element in tail
+        result[element[2][0]] = element[2][1]
+      return result
+    }
+
+pair
+  = name:string ":" _ value:value { [name, value] }
+
+array
+  = "[" _ "]" _                   { []       }
+  / "[" _ elements:elements "]" _ { elements }
+
+elements
+  = head:value tail:("," _ value)* {
+      result = [head]
+      result.push element[2] for element in tail
+      return result
+    }
+
+value
+  = string
+  / number
+  / object
+  / array
+  / "true" _  { true   }
+  / "false" _ { false  }
+  // FIXME: We cant return null here because that would mean parse failure.
+  / "null" _  { "null" }
+
+/* ===== Lexical Elements ===== */
+
+string "string"
+  = '"' '"' _             { ""    }
+  / '"' chars:chars '"' _ { chars }
+
+chars
+  = chars:char+ { chars.join "" }
+
+char
+  // In the original JSON grammar: "any-Unicode-character-except-"-or-\-or-control-character"
+  = [^"\\\0-\x1F\x7f]
+  / '\\"'  { '"'  }
+  / "\\\\" { "\\" }
+  / "\\/"  { "/"  }
+  / "\\b"  { "\b" }
+  / "\\f"  { "\f" }
+  / "\\n"  { "\n" }
+  / "\\r"  { "\r" }
+  / "\\t"  { "\t" }
+  / "\\u" h1:hexDigit h2:hexDigit h3:hexDigit h4:hexDigit {
+      String.fromCharCode parseInt "0x#{h1}#{h2}#{h3}#{h4}"
+    }
+
+number "number"
+  = int_:int frac:frac exp:exp _ { parseFloat(int_ + frac + exp) }
+  / int_:int frac:frac _         { parseFloat(int_ + frac)       }
+  / int_:int exp:exp _           { parseFloat(int_ + exp)        }
+  / int_:int _                   { parseFloat(int_)              }
+
+int
+  = digit19:digit19 digits:digits     {  digit19 + digits       }
+  / digit:digit
+  / "-" digit19:digit19 digits:digits {  "-#{digit19}#{digits}" }
+  / "-" digit:digit                   {  "-#{digit}"            }
+
+frac
+  = "." digits:digits {  ".#{digits}" }
+
+exp
+  = e:e digits:digits {  e + digits }
+
+digits
+  = digits:digit+ {  digits.join "" }
+
+e
+  = e:[eE] sign:[+-]? {  e + sign }
+
+/*
+ * The following rules are not present in the original JSON gramar, but they are
+ * assumed to exist implicitly.
+ *
+ * FIXME: Define them according to ECMA-262, 5th ed.
+ */
+
+digit
+  = [0-9]
+
+digit19
+  = [1-9]
+
+hexDigit
+  = [0-9a-fA-F]
+
+/* ===== Whitespace ===== */
+
+_ "whitespace"
+  = whitespace*
+
+// Whitespace is undefined in the original JSON grammar, so I assume a simple
+// conventional definition consistent with ECMA-262, 5th ed.
+whitespace
+  = [ \t\n\r]
