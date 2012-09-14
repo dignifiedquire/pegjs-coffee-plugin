@@ -3,7 +3,7 @@
 util = require 'util'
 fs   = require 'fs'
 PEG  = require 'pegjs'
-PEGjsCoffeePlugin = require '../lib/peg-coffee.js'
+PEGjsCoffeePlugin = require '../lib/pegjs-coffee-plugin.js'
 
 # Helpers
 
