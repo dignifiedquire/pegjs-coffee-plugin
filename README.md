@@ -30,7 +30,7 @@ PEGjsCoffeePlugin = require 'pegjs-coffee-plugin'
 #### Browser
 
 Download
-[pegjs-coffee-plugin.js](https://raw.github.com/Dignifiedquire/peg-coffee/master/lib/peg-coffee.js).
+[pegjs-coffee-plugin.js](https://raw.github.com/Dignifiedquire/pegjs-coffee-plugin/master/lib/pegjs-coffee-plugin.js).
 Now include all needed scripts in your html file like this.
 ```html
 <script src="peg.js"></script>
@@ -125,7 +125,7 @@ rule
 
 Clone the repo and run the install
 ```bash
-$ git clone https://github.com/Dignifiedquire/peg-coffee.git
+$ git clone https://github.com/Dignifiedquire/pegjs-coffee-plugin.git
 $ make install
 ```
 
@@ -155,4 +155,4 @@ and open your browser on [localhost:3000](http://localhost:3000).
 * finish build process
 * make npm package
 * make bower package
-
+* improve error handling
