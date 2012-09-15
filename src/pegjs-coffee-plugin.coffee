@@ -5,7 +5,7 @@
 
 # set constants  
 PASS_NAME = 'compileFromCoffeeScript'
-VERSION = '0.1.0'
+VERSION = '@VERSION'
 
 #
 # the module itself
