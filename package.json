@@ -1,5 +1,5 @@
 {
-  "name": "peg-coffee",
+  "name": "pegjs-coffee-plugin",
   "version": "@VERSION",
   "description": "A plugin for PEG.js to use CoffeeScript in your actions.",
   "homepage": "https://github.com/Dignifiedquire/peg-coffee",
@@ -16,7 +16,7 @@
   "main": "lib/peg-coffee.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Dignifiedquire/peg-coffee.git"
+    "url": "https://github.com/Dignifiedquire/pegjs-coffee-plugin.git"
   },
   "author": {
     "name": "Friedel Ziegelmayer",
