@@ -155,4 +155,4 @@ and open your browser on [localhost:3000](http://localhost:3000).
 * finish build process
 * make npm package
 * make bower package
-* improve error handling
+

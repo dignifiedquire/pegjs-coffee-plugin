@@ -33,6 +33,20 @@ PEGjsCoffeePlugin = (CoffeeScript) ->
 
   pass: (ast) ->
 
+    # this function handles the actual compilation of the
+    # code and the error handling
+    compileCoffeeScript = (code) ->
+      # compile options
+      options = bare: true
+      try
+        compiled = CoffeeScript.compile(code, options)
+      catch error
+        throw new SyntaxError(
+          "In: \"#{code}\"\n was the following error: #{error.message}",
+          error.fileName,
+          error.lineNumber
+        )
+
     # First we need compile the initializer
     # if there is one
     
@@ -48,14 +62,14 @@ PEGjsCoffeePlugin = (CoffeeScript) ->
         return this
       ).call({})
     """
-    ast.initializer.code = CoffeeScript.compile(wrappedInitializer, bare: true)
+    ast.initializer.code = compileCoffeeScript(wrappedInitializer)
 
                     
     compileNode = (code) ->
       # We inject the scope of the initializer if it exists
       # into the function that calls the action code
       wrappedCode = "return ( -> #{code} ).apply(__initializer)"
-      return CoffeeScript.compile(wrappedCode, bare: true)
+      compileCoffeeScript(wrappedCode)
 
     
     
