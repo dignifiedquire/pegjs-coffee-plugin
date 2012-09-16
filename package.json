@@ -9,22 +9,14 @@
     "PEG",
     "plugin"
   ],
+  "main": "lib/pegjs-coffee-plugin.js",
+  "bin": {
+    "pegcoffee": "bin/pegcoffee.js"
+  },
   "scripts": {
     "test": "make test",
     "build": "make build"
   },
-  "main": "lib/pegjs-coffee-plugin.js",
-  "bin": {
-    "pegcoffee": "./bin/pegcoffee"
-  },
-  "files": [
-    "bin/pegcoffee.js",
-    "README.md",
-    "LICENSE",
-    "CHANGELOG.md",
-    "VERSION",
-    "lib"
-  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/Dignifiedquire/pegjs-coffee-plugin.git"
