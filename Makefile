@@ -124,16 +124,16 @@ dist: build
 	$(UGLIFYJS) --ascii -o $(PEGCOFFEE_DIST_FILE_MIN) $(PEGCOFFEE_LIB_FILE)
 
 	# Node.js
-	mkdir -p $(DIST_NODE_DIR)
-	cp -r               \
-	  $(LIB_DIR)        \
-	  $(BIN_DIR)        \
-	  $(EXAMPLES_DIR)   \
-	  $(CHANGELOG_FILE) \
-	  $(LICENSE_FILE)   \
-	  $(README_FILE)    \
-	  $(VERSION_FILE)   \
+	mkdir -p $(DIST_NODE_DIR) $(DIST_NODE_DIR)/bin
+	cp -r                 \
+	  $(LIB_DIR)          \
+	  $(EXAMPLES_DIR)     \
+	  $(CHANGELOG_FILE)   \
+	  $(LICENSE_FILE)     \
+	  $(README_FILE)      \
+	  $(VERSION_FILE)     \
 	  $(DIST_NODE_DIR)
+	cp $(BIN_OUT_FILE) $(DIST_NODE_DIR)/bin/
 	$(PREPROCESS) $(PACKAGE_JSON_SRC_FILE) > $(PACKAGE_JSON_DIST_FILE)
 
 # Remove distribution file (created by "dist")
