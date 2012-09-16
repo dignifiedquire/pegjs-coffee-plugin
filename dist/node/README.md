@@ -4,10 +4,9 @@ PEGjs Coffee Plugin
 Plugin for PEG.js to use CoffeeScript in actions. Because all I want
 for christmas is CoffeeScript.
 
----
-This plugin is not finished yet, so it's not available via `npm` !!
-
----
+## Status
+The basic functionality is finished. Please test it and add feature
+requests and issues [here](https://github.com/Dignifiedquire/pegjs-coffee-plugin/issues).
 
 ## Requirements
 
@@ -29,8 +28,10 @@ PEGjsCoffeePlugin = require 'pegjs-coffee-plugin'
 
 #### Browser
 
-Download
-[pegjs-coffee-plugin.js](https://raw.github.com/Dignifiedquire/pegjs-coffee-plugin/master/lib/pegjs-coffee-plugin.js).
+Download the
+[development](https://raw.github.com/Dignifiedquire/pegjs-coffee-plugin/master/dist/web/pegjs-coffee-plugin-0.1.0.js)
+or the
+[minified](https://raw.github.com/Dignifiedquire/pegjs-coffee-plugin/master/dist/web/pegjs-coffee-plugin-0.1.0.min.js) version.
 Now include all needed scripts in your html file like this.
 ```html
 <script src="peg.js"></script>
@@ -119,7 +120,8 @@ rule
 * [mocha](http://visionmedia.github.com/mocha/)
 * [expect.js](https://github.com/LearnBoost/expect.js)
 * [http-server](https://github.com/nodeapps/http-server)
-
+* [JSHint](http://www.jshint.com/)
+* [UglifyJS](https://github.com/mishoo/UglifyJS)
 
 ### Setup
 
@@ -152,7 +154,5 @@ and open your browser on [localhost:3000](http://localhost:3000).
 # Todo
 
 * more tests
-* finish build process
-* make npm package
 * make bower package
-* improve error handling
+

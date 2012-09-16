@@ -31,7 +31,18 @@
         }
       },
       pass: function(ast) {
-        var compile, compileNode, wrappedInitializer;
+        var compile, compileCoffeeScript, compileNode, wrappedInitializer;
+        compileCoffeeScript = function(code) {
+          var compiled, options;
+          options = {
+            bare: true
+          };
+          try {
+            return compiled = CoffeeScript.compile(code, options);
+          } catch (error) {
+            throw new SyntaxError("In: \"" + code + "\"\n was the following error: " + error.message, error.fileName, error.lineNumber);
+          }
+        };
         if (ast.initializer == null) {
           ast.initializer = {
             type: 'initializer',
@@ -39,15 +50,11 @@
           };
         }
         wrappedInitializer = "__initializer = ( ->\n  " + ast.initializer.code + "\n  return this\n).call({})";
-        ast.initializer.code = CoffeeScript.compile(wrappedInitializer, {
-          bare: true
-        });
+        ast.initializer.code = compileCoffeeScript(wrappedInitializer);
         compileNode = function(code) {
           var wrappedCode;
           wrappedCode = "return ( -> " + code + " ).apply(__initializer)";
-          return CoffeeScript.compile(wrappedCode, {
-            bare: true
-          });
+          return compileCoffeeScript(wrappedCode);
         };
         compile = function(nodes) {
           var key, value, _results;
