@@ -49,6 +49,10 @@ suite('peg-coffee', function() {
           value: "a"
         });
       });
+      test('four space indentation', function() {
+        var parser = buildParser('start = "a" {\n    a = 10\n    "#{a+1}"\n}');
+        expect (tryParse(parser, "a")).to.be.eql("11");
+      });
       return suite('predicates', function() {
         suite('semantic not code', function() {
           test('success on |false| return', function() {
