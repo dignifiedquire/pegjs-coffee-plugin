@@ -30,22 +30,19 @@ tryParse = function(parser, text) {
 };
 
 suite('peg-coffee', function() {
-  return suite('compile grammar', function() {
-    return suite('simple CoffeeScript', function() {
+  suite('compile grammar', function() {
+    suite('simple CoffeeScript', function() {
       test('action', function() {
-        var parser;
-        parser = buildParser('start = "a" { "#{1+1}" }');
-        return expect(tryParse(parser, "a")).to.equal("2");
+        var parser = buildParser('start = "a" { "#{1+1}" }');
+        expect(tryParse(parser, "a")).to.equal("2");
       });
       test('initializer', function() {
-        var parser;
-        parser = buildParser('{\n  @val = "#{1+1}"\n}\nstart\n  = "a" { @val }');
-        return expect(tryParse(parser, "a")).to.equal("2");
+        var parser = buildParser('{\n  @val = "#{1+1}"\n}\nstart\n  = "a" { @val }');
+        expect(tryParse(parser, "a")).to.equal("2");
       });
       test('empty initializer scope', function() {
-        var parser;
-        parser = buildParser('start = a { @ }\na     = "a" { @value = "a" }');
-        return expect(tryParse(parser, "a")).to.be.eql({
+        var parser = buildParser('start = a { @ }\na     = "a" { @value = "a" }');
+        expect(tryParse(parser, "a")).to.be.eql({
           value: "a"
         });
       });
@@ -53,66 +50,56 @@ suite('peg-coffee', function() {
         var parser = buildParser('start = "a" {\n    a = 10\n    "#{a+1}"\n}');
         expect (tryParse(parser, "a")).to.be.eql("11");
       });
-      return suite('predicates', function() {
+      suite('predicates', function() {
         suite('semantic not code', function() {
           test('success on |false| return', function() {
-            var parser;
-            parser = buildParser('start\n  = !{no}');
-            return expect(tryParse(parser, "")).to.be.undefined;
+            var parser = buildParser('start\n  = !{no}');
+            expect(tryParse(parser, "")).to.be.undefined;
           });
           test('failure on |true| return', function() {
-            var parser;
-            parser = buildParser('start\n  = !{yes}');
-            return expect(tryParse(parser, "")).to.be.an(Error);
+            var parser = buildParser('start\n  = !{yes}');
+            expect(tryParse(parser, "")).to.be.an(Error);
           });
-          return suite('variable use', function() {
+          suite('variable use', function() {
             test('can use label variables', function() {
-              var parser;
-              parser = buildParser('start\n  = a:"a" &{a is "a"}');
-              return expect(tryParse(parser, "a")).to.be.eql(["a", void 0]);
+              var parser = buildParser('start\n  = a:"a" &{a is "a"}');
+              expect(tryParse(parser, "a")).to.be.eql(["a", void 0]);
             });
             test('can use the |offset| variable to get the current parse position', function() {
-              var parser;
-              parser = buildParser('start\n  = "a" &{offset() is 1}');
-              return expect(tryParse(parser, "a")).to.be.eql(["a", void 0]);
+              var parser = buildParser('start\n  = "a" &{offset() is 1}');
+              expect(tryParse(parser, "a")).to.be.eql(["a", void 0]);
             });
-            return test('can use the |line| and |column| variables to get the current line and column', function() {
-              var parser;
-              parser = buildParser('{\n  @result = "test"\n}\nstart = line (nl+ line)* {@result }\nline  = thing (" "+ thing)*\nthing = digit / mark\ndigit = [0-9]\nmark  = &{ @result = [line(), column()]; true } "x"\nnl    = ("\\r" / "\\n" / "\\u2028" / "\\u2029")', {
+            test('can use the |line| and |column| variables to get the current line and column', function() {
+              var parser = buildParser('{\n  @result = "test"\n}\nstart = line (nl+ line)* {@result }\nline  = thing (" "+ thing)*\nthing = digit / mark\ndigit = [0-9]\nmark  = &{ @result = [line(), column()]; true } "x"\nnl    = ("\\r" / "\\n" / "\\u2028" / "\\u2029")', {
                 trackLineAndColumn: true
               });
-              return expect(tryParse(parser, "1\n2\n\n3\n\n\n4 5 x")).to.be.eql([7, 5]);
+              expect(tryParse(parser, "1\n2\n\n3\n\n\n4 5 x")).to.be.eql([7, 5]);
             });
           });
         });
-        return suite('semantic and code', function() {
+        suite('semantic and code', function() {
           test('success on |true| return', function() {
-            var parser;
-            parser = buildParser('start\n  = &{yes}');
-            return expect(tryParse(parser, "")).to.equal(void 0);
+            var parser = buildParser('start\n  = &{yes}');
+            expect(tryParse(parser, "")).to.equal(void 0);
           });
           test('failure on |false| return', function() {
-            var parser;
-            parser = buildParser('start\n  = &{no}');
-            return expect(tryParse(parser, "")).to.be.a(Error);
+            var parser = buildParser('start\n  = &{no}');
+            expect(tryParse(parser, "")).to.be.a(Error);
           });
-          return suite('variable use', function() {
+          suite('variable use', function() {
             test('can use label variables', function() {
-              var parser;
-              parser = buildParser('start\n  = a:"a" !{a isnt "a"}');
-              return expect(tryParse(parser, "a")).to.be.eql(["a", void 0]);
+              var parser = buildParser('start\n  = a:"a" !{a isnt "a"}');
+              expect(tryParse(parser, "a")).to.be.eql(["a", void 0]);
             });
             test('can use the |offset| variable to get the current parse position', function() {
-              var parser;
-              parser = buildParser('start\n  = "a" !{offset() isnt 1}');
-              return expect(tryParse(parser, "a")).to.be.eql(["a", void 0]);
+              var parser = buildParser('start\n  = "a" !{offset() isnt 1}');
+              expect(tryParse(parser, "a")).to.be.eql(["a", void 0]);
             });
-            return test('can use the |line| and |column| variables to get the current line and column', function() {
-              var parser;
-              parser = buildParser('{\n  @result = "test"\n}\nstart = line (nl+ line)* { @result }\nline  = thing (" "+ thing)*\nthing = digit / mark\ndigit = [0-9]\nmark  = !{ @result = [line(), column()]; false } "x"\nnl    = ("\\r" / "\\n" / "\\u2028" / "\\u2029")', {
+            test('can use the |line| and |column| variables to get the current line and column', function() {
+              var parser = buildParser('{\n  @result = "test"\n}\nstart = line (nl+ line)* { @result }\nline  = thing (" "+ thing)*\nthing = digit / mark\ndigit = [0-9]\nmark  = !{ @result = [line(), column()]; false } "x"\nnl    = ("\\r" / "\\n" / "\\u2028" / "\\u2029")', {
                 trackLineAndColumn: true
               });
-              return expect(tryParse(parser, "1\n2\n\n3\n\n\n4 5 x")).to.be.eql([7, 5]);
+              expect(tryParse(parser, "1\n2\n\n3\n\n\n4 5 x")).to.be.eql([7, 5]);
             });
           });
         });
