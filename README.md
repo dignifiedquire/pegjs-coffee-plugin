@@ -1,5 +1,4 @@
-PEGjs Coffee Plugin
-==========
+# PEGjs Coffee Plugin
 
 Plugin for PEG.js to use CoffeeScript in actions. Because all I want
 for christmas is CoffeeScript.
@@ -23,19 +22,19 @@ $ npm install pegjs-coffee-plugin
 Then in your code call
 ```coffee-script
 PEG = require 'pegjs'
-PEGjsCoffeePlugin = require 'pegjs-coffee-plugin'
+coffee = require 'pegjs-coffee-plugin'
+
 ```
 
 #### Browser
 
 Download the
-[development](https://raw.github.com/Dignifiedquire/pegjs-coffee-plugin/master/dist/web/pegjs-coffee-plugin-0.1.0.js)
+[development](https://raw.github.com/Dignifiedquire/pegjs-coffee-plugin/master/dist/pegjs-coffee-plugin-0.2.0.js)
 or the
-[minified](https://raw.github.com/Dignifiedquire/pegjs-coffee-plugin/master/dist/web/pegjs-coffee-plugin-0.1.0.min.js) version.
+[minified](https://raw.github.com/Dignifiedquire/pegjs-coffee-plugin/master/dist/pegjs-coffee-plugin-0.2.0.min.js) version.
 Now include all needed scripts in your html file like this.
 ```html
 <script src="peg.js"></script>
-<script src=coffee-script.js"></script>
 <script src="pegjs-coffee-plugin.js"></script>
 ```
 
@@ -45,27 +44,18 @@ Now include all needed scripts in your html file like this.
 After you have loaded all scripts you can do
 
 ```coffee-script
-PEGjsCoffeePlugin.addTo PEG
-# From here on out you can use CoffeeScript in your actions
-PEG.compile(..)
+grammar = '' # Define your grammar
+parser = PEG.buildParser grammar, plugins: [coffee]
 ```
-If you don't need it anymore you can do the following
-```coffee-script
-PEGjsCoffeePlugin.removeFrom PEG
-# From here on out everything is back to the way it was before
-PEG.compile(..)
-```
+
 ### Command line
-You can use the command line interface the same way you use the one by
-PEGjs. 
+Just pass the `pegjs` commandline like this
 ```bash
-$ pegcoffee myGrammar.pegcoffee myCompiledGrammar.js
+$ pegjs --plugin pegjs-coffee-plugin myGrammar.pegcoffee myCompiledGrammar.js
 ```
-It defaults to use CoffeeScript but if you pass it the option `--js`
-you get the old Javascript back.
 
 ## Added Features
-You now have a save scope shared between all actions and predicates. 
+You now have a save scope shared between all actions and predicates.
 To begin it is empty, then all declarations from the initializer are
 added. Afterwards you can add and remove stuff as much as you like.
 This scope is there even if you don't use the initializer. So you can
@@ -106,7 +96,6 @@ awesome
 rule
   = "rule" { @result = "rule }
 ```
-
 
 
 -------------

@@ -1,6 +1,6 @@
 {
   "name": "pegjs-coffee-plugin",
-  "version": "@VERSION",
+  "version": "0.2.0",
   "description": "A plugin for PEG.js to use CoffeeScript in your actions.",
   "homepage": "https://github.com/Dignifiedquire/peg-coffee",
   "keywords": [
@@ -9,10 +9,7 @@
     "PEG",
     "plugin"
   ],
-  "main": "lib/pegjs-coffee-plugin.js",
-  "bin": {
-    "pegcoffee": "bin/pegcoffee.js"
-  },
+  "main": "index.js",
   "scripts": {
     "test": "make test",
     "build": "make build"
@@ -33,17 +30,20 @@
   ],
   "license": "3-clause BSD",
   "dependencies": {
-    "coffee-script": "~1.3.3",
-    "pegjs": "~0.7.0"
+    "coffee-script": "~1.6.3"
+  },
+  "peerDependencies": {
+    "pegjs": "~0.8.0"
   },
   "devDependencies": {
     "mocha": "~1.4.2",
     "expect.js": "~0.1.2",
     "http-server": "~0.5.1",
     "jshint": "~0.9.0",
-    "uglify-js": "~1.3.3"
+    "uglify-js": "~1.3.3",
+    "browserify": "~3.19.1"
   },
   "engines": {
-    "node": ">= 0.6.6"
+    "node": ">= 0.8"
   }
 }
