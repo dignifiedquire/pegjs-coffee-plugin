@@ -3,6 +3,7 @@
 //
 
 var CoffeeScript = require('coffee-script');
+var detectIndent = require('detect-indent');
 
 // The acutal compilation of CoffeeScript.
 function compileCoffeeScript(code) {
@@ -22,10 +23,11 @@ function compileCoffeeScript(code) {
 // The initializer gets its own scope which we save
 // in __initializer for later use
 function wrapInitializer(initializer) {
+  var indent = detectIndent(initializer) || '  ';
   return [
     '__initializer = ( ->',
-    '  ', initializer,
-    '  return this',
+    indent +  initializer,
+    indent + 'return this',
     ').call({})'
   ].join('\n');
 }

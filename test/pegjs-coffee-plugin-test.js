@@ -40,6 +40,10 @@ suite('peg-coffee', function() {
         var parser = buildParser('{\n  @val = "#{1+1}"\n}\nstart\n  = "a" { @val }');
         expect(tryParse(parser, "a")).to.equal("2");
       });
+      test('initializer four spaces', function() {
+        var parser = buildParser('{\n    @val = "#{1+1}"\n}\nstart\n  = "a" { @val }');
+        expect(tryParse(parser, "a")).to.equal("2");
+      });
       test('empty initializer scope', function() {
         var parser = buildParser('start = a { @ }\na     = "a" { @value = "a" }');
         expect(tryParse(parser, "a")).to.be.eql({
