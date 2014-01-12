@@ -1,6 +1,6 @@
 {
   "name": "pegjs-coffee-plugin",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A plugin for PEG.js to use CoffeeScript in your actions.",
   "homepage": "https://github.com/Dignifiedquire/peg-coffee",
   "keywords": [
