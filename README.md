@@ -1,4 +1,5 @@
-# PEGjs Coffee Plugin
+# PEGjs Coffee Plugin [![Build Status](https://travis-ci.org/Dignifiedquire/pegjs-coffee-plugin.png?branch=master)](https://travis-ci.org/Dignifiedquire/pegjs-coffee-plugin)
+
 
 Plugin for PEG.js to use CoffeeScript in actions. Because all I want
 for christmas is CoffeeScript.
