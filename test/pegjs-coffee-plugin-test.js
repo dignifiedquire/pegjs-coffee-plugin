@@ -44,6 +44,10 @@ suite('peg-coffee', function() {
         var parser = buildParser('{\n    @val = "#{1+1}"\n}\nstart\n  = "a" { @val }');
         expect(tryParse(parser, "a")).to.equal("2");
       });
+      test('initializer four spaces multi line', function() {
+        var parser = buildParser('{\n    @val = 2\n    @val2 = 1\n}\nstart\n  = "a" { "#{@val + @val2}" }');
+        expect(tryParse(parser, "a")).to.equal("3");
+      });
       test('empty initializer scope', function() {
         var parser = buildParser('start = a { @ }\na     = "a" { @value = "a" }');
         expect(tryParse(parser, "a")).to.be.eql({
@@ -65,16 +69,20 @@ suite('peg-coffee', function() {
             expect(tryParse(parser, "")).to.be.an(Error);
           });
           suite('variable use', function() {
+            test('can use this references', function() {
+              var parser = buildParser('{\n  @a="a"\n}\nstart\n  = a:"a" !{a isnt @a}');
+                expect(tryParse(parser, "a")).to.be.eql(["a", void 0]);
+            });
             test('can use label variables', function() {
-              var parser = buildParser('start\n  = a:"a" &{a is "a"}');
+              var parser = buildParser('start\n  = a:"a" !{a isnt "a"}');
               expect(tryParse(parser, "a")).to.be.eql(["a", void 0]);
             });
             test('can use the |offset| variable to get the current parse position', function() {
-              var parser = buildParser('start\n  = "a" &{offset() is 1}');
+              var parser = buildParser('start\n  = "a" !{offset() isnt 1}');
               expect(tryParse(parser, "a")).to.be.eql(["a", void 0]);
             });
             test('can use the |line| and |column| variables to get the current line and column', function() {
-              var parser = buildParser('{\n  @result = "test"\n}\nstart = line (nl+ line)* {@result }\nline  = thing (" "+ thing)*\nthing = digit / mark\ndigit = [0-9]\nmark  = &{ @result = [line(), column()]; true } "x"\nnl    = ("\\r" / "\\n" / "\\u2028" / "\\u2029")', {
+              var parser = buildParser('{\n  @result = "test"\n}\nstart = line (nl+ line)* { @result }\nline  = thing (" "+ thing)*\nthing = digit / mark\ndigit = [0-9]\nmark  = !{ @result = [line(), column()]; false } "x"\nnl    = ("\\r" / "\\n" / "\\u2028" / "\\u2029")', {
                 trackLineAndColumn: true
               });
               expect(tryParse(parser, "1\n2\n\n3\n\n\n4 5 x")).to.be.eql([7, 5]);
@@ -91,16 +99,20 @@ suite('peg-coffee', function() {
             expect(tryParse(parser, "")).to.be.a(Error);
           });
           suite('variable use', function() {
+            test('can use this references', function() {
+              var parser = buildParser('{\n  @a="a"\n  @b = 10\n}\nstart\n  = a:"a" &{a is @a and @b is 10}');
+                expect(tryParse(parser, "a")).to.be.eql(["a", void 0]);
+            });
             test('can use label variables', function() {
-              var parser = buildParser('start\n  = a:"a" !{a isnt "a"}');
+              var parser = buildParser('start\n  = a:"a" &{a is "a"}');
               expect(tryParse(parser, "a")).to.be.eql(["a", void 0]);
             });
             test('can use the |offset| variable to get the current parse position', function() {
-              var parser = buildParser('start\n  = "a" !{offset() isnt 1}');
+              var parser = buildParser('start\n  = "a" &{offset() is 1}');
               expect(tryParse(parser, "a")).to.be.eql(["a", void 0]);
             });
             test('can use the |line| and |column| variables to get the current line and column', function() {
-              var parser = buildParser('{\n  @result = "test"\n}\nstart = line (nl+ line)* { @result }\nline  = thing (" "+ thing)*\nthing = digit / mark\ndigit = [0-9]\nmark  = !{ @result = [line(), column()]; false } "x"\nnl    = ("\\r" / "\\n" / "\\u2028" / "\\u2029")', {
+              var parser = buildParser('{\n  @result = "test"\n}\nstart = line (nl+ line)* {@result }\nline  = thing (" "+ thing)*\nthing = digit / mark\ndigit = [0-9]\nmark  = &{ @result = [line(), column()]; true } "x"\nnl    = ("\\r" / "\\n" / "\\u2028" / "\\u2029")', {
                 trackLineAndColumn: true
               });
               expect(tryParse(parser, "1\n2\n\n3\n\n\n4 5 x")).to.be.eql([7, 5]);
