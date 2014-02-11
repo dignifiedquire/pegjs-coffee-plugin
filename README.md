@@ -117,7 +117,8 @@ rule
 Clone the repo and run the install
 ```bash
 $ git clone https://github.com/Dignifiedquire/pegjs-coffee-plugin.git
-$ make install
+$ cd pegjs-cofee-plugin
+$ npm install && npm install pegjs
 ```
 
 ### Building
