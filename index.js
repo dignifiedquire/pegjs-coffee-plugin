@@ -41,6 +41,9 @@ function wrapCode(code) {
 }
 
 function compileNode(node) {
+  if (node.code === undefined) {
+    return;
+  }
   // We inject the scope of the initializer if it exists
   // into the function that calls the action code
   node.code = compileCoffeeScript(wrapCode(node.code));
@@ -57,6 +60,7 @@ function buildNodeVisitor(visitorMap) {
 
 function compileExpression(node) {
   compile(node.expression);
+  compileNode(node);
   return node;
 }
 
@@ -65,7 +69,7 @@ function compileSubnodes(property) {
     for (var i=0; i< node[property].length; i++) {
       compile(node[property][i]);
     }
-    return node
+    return node;
   };
 }
 
@@ -75,9 +79,13 @@ function compile(nodes) {
     grammar:        compileSubnodes('rules'),
     choice:         compileSubnodes('alternatives'),
     sequence:       compileSubnodes('elements'),
-    action:         compileNode,
     semantic_not:   compileNode,
     semantic_and:   compileNode,
+    literal:        compileNode,
+    rule_ref:       compileNode,
+    'class':        compileNode,
+    any:            compileNode,
+    action:         compileExpression,
     rule:           compileExpression,
     named:          compileExpression,
     labeled:        compileExpression,
