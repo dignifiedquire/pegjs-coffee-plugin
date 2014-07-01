@@ -122,6 +122,57 @@ suite('peg-coffee', function() {
       });
     });
   });
+  suite('issues', function() {
+    suite('#7 - returning labeled arrays', function() {
+      test('simple', function() {
+        var parser = buildParser([
+          'value_list "value list"',
+          '  = "a" (" " [bc])*'
+        ].join('\n'));
+
+        expect(tryParse(parser, 'a b c c b c b')).to.be.eql([
+          'a',
+          [ [ ' ', 'b' ],
+            [ ' ', 'c' ],
+            [ ' ', 'c' ],
+            [ ' ', 'b' ],
+            [ ' ', 'c' ],
+            [ ' ', 'b' ] ]
+        ]);
+      });
+      test('labeled', function() {
+        var parser = buildParser([
+          'value_list "value list"',
+          '= a:"a" bcs:(" " bc:[bc] {bc})*'
+        ].join('\n'));
+
+        expect(tryParse(parser, 'a b c c b c b')).to.be.eql([
+          'a',
+          [ 'b',
+            'c',
+            'c',
+            'b',
+            'c',
+            'b' ]
+        ]);
+      });
+      test('return labeled', function() {
+        var parser = buildParser([
+          'value_list "value list"',
+          '  = a:"a" bcs:(" " bc:[bc] {bc})*',
+          '    { [a].concat bcs }'
+        ].join('\n'));
+
+        expect(tryParse(parser, 'a b c c b c b')).to.be.eql([
+          'a',
+          'b',
+          'c',
+          'c',
+          'b',
+          'c',
+          'b'
+        ]);
+      });
+    });
+  });
 });
-
-
