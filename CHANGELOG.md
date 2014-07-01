@@ -1,3 +1,7 @@
+## Version 0.2.2
+* Selectively compile nodes. (@norcalli)
+* Updated for newer AST tree with literals, classes and any. (@norcalli)
+
 ## Version 0.2.1
 * Fix indentation bug in the initializer.
 

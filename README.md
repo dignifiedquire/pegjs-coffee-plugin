@@ -30,9 +30,9 @@ coffee = require 'pegjs-coffee-plugin'
 #### Browser
 
 Download the
-[development](https://raw.github.com/Dignifiedquire/pegjs-coffee-plugin/master/dist/pegjs-coffee-plugin-0.2.1.js)
+[development](https://raw.github.com/Dignifiedquire/pegjs-coffee-plugin/master/dist/pegjs-coffee-plugin-0.2.2.js)
 or the
-[minified](https://raw.github.com/Dignifiedquire/pegjs-coffee-plugin/master/dist/pegjs-coffee-plugin-0.2.1.min.js) version.
+[minified](https://raw.github.com/Dignifiedquire/pegjs-coffee-plugin/master/dist/pegjs-coffee-plugin-0.2.2.min.js) version.
 Now include all needed scripts in your html file like this.
 ```html
 <script src="peg.js"></script>
@@ -146,4 +146,3 @@ and open your browser on [localhost:3000](http://localhost:3000).
 
 * more tests
 * make bower package
-
