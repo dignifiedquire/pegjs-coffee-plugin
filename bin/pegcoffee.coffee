@@ -27,6 +27,7 @@ printHelp = ->
           --cache                  make generated parser cache results
           --allowed-start-rules    comma separated rules to start parsing from
           --optimize               size or speed
+          --js                     use plain JavaScript in actions
       -v, --version                print version information and exit
       -h, --help                   print help and exit
   """
@@ -45,7 +46,7 @@ abort = (message) ->
 args = process.argv.slice 2
 argv = require("minimist") args,
           string: ["export-var", "allowed-start-rules", "optimize"]
-          boolean: ["cache", "version", "help"]
+          boolean: ["cache", "version", "help", "js"]
           alias:
             "export-var": "e"
             "version": "v"
@@ -76,6 +77,9 @@ if args.length > 0
     exportVar = argv["export-var"]
     if typeof exportVar isnt "string"
       abort "Missing parameter of the -e/--export-var option."
+
+  if argv.js
+    options.js = true
 
   if argv.cache
     options.cache = true
@@ -119,7 +123,8 @@ switch args.length
 
 
 readStream inputStream, (input) ->
-  options.plugins = [PEGjsCoffeePlugin]
+  if not options.js
+    options.plugins = [PEGjsCoffeePlugin]
   try 
     parser = PEG.buildParser(input, options)
   catch e
