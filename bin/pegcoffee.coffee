@@ -1,18 +1,17 @@
 #!/usr/bin/env node
 
-util = require 'util'
 fs   = require 'fs'
 PEG  = require 'pegjs'
-PEGjsCoffeePlugin = require '../lib/pegjs-coffee-plugin.js'
+PEGjsCoffeePlugin = require '../index'
 
 # Helpers
 
 
-printVersion = -> util.puts("PEG.js CoffeeScript Plugin #{PEGjsCoffeePlugin.VERSION}")
+printVersion = -> console.log("PEG.js CoffeeScript Plugin #{PEGjsCoffeePlugin.VERSION}")
 
 
 printHelp = ->
-  util.puts """
+  console.log """
     Usage: pegcoffee [options] [--] [<input_file>] [<output_file>]
 
     Generates a parser from the PEG grammar specified in the <input_file> and
@@ -26,8 +25,8 @@ printHelp = ->
       -e, --export-var <variable>  name of the variable where the parser object
                                    will be stored (default: \"module.exports\")
           --cache                  make generated parser cache results
-          --track-line-and-column  make generated parser track line and column
-          --js                     use plain javascript in actions
+          --allowed-start-rules    comma separated rules to start parsing from
+          --optimize               size or speed
       -v, --version                print version information and exit
       -h, --help                   print help and exit
   """
@@ -37,17 +36,23 @@ exitSuccess = -> process.exit(0)
 exitFailure = -> process.exit(1)
 
 abort = (message) ->
-  util.error message
+  console.error message
   exitFailure()
 
 # Arguments
 
 #Trim "node" and the script path.
 args = process.argv.slice 2
-
-isOption = (arg) -> /^-/.test(arg)
-
-nextArg = -> args.shift()
+argv = require("minimist") args,
+          string: ["export-var", "allowed-start-rules", "optimize"]
+          boolean: ["cache", "version", "help"]
+          alias:
+            "export-var": "e"
+            "version": "v"
+            "help": "h"
+          "--": true
+          unknown: (arg) ->
+            return false
 
 # Files 
 
@@ -63,41 +68,35 @@ readStream = (inputStream, callback) ->
 exportVar = "module.exports"
 # Set the usage of CoffeeScript as default
 options = 
-  cache:              false
-  trackLineAndColumn: false
-  js:                 false
+  cache: false
+  output: "source"
 
+if args.length > 0
+  if argv["export-var"]
+    exportVar = argv["export-var"]
+    if typeof exportVar isnt "string"
+      abort "Missing parameter of the -e/--export-var option."
 
-while args.length > 0 and isOption args[0]
-  switch (args[0])
-    when "-e", "--export-var"
-      nextArg()
-      if args.length is 0
-        abort "Missing parameter of the -e/--export-var option."
-      exportVar = args[0]
-      
-    when "--js"
-      options.js = true
-      
-    when "--cache"
-      options.cache = true
+  if argv.cache
+    options.cache = true
 
-    when "--track-line-and-column"
-      options.trackLineAndColumn = true
+  if allowedStartRules = argv["allowed-start-rules"]
+    if typeof allowedStartRules isnt "string"
+      abort "Missing parameter of the --allowed-start-rules option."
+    options.allowedStartRules = allowedStartRules
 
-    when "-v","--version"
-      printVersion()
-      exitSuccess()
+  if optimize = argv.optimize
+    if typeof optimize isnt "string"
+      abort "Missing parameter of the --optimize option."
+    options.optimize = optimize
 
-    when "-h", "--help"
-      printHelp()
-      exitSuccess()
+  if argv.version
+    printVersion()
+    exitSuccess()
 
-    when "--"
-      nextArg()
-
-    else abort "Unknown option: #{args[0]}."
-  nextArg()
+  if argv.help
+    printHelp()
+    exitSuccess()
 
 switch args.length
   when 0
@@ -120,7 +119,7 @@ switch args.length
 
 
 readStream inputStream, (input) ->
-  PEGjsCoffeePlugin.addTo PEG unless options.js
+  options.plugins = [PEGjsCoffeePlugin]
   try 
     parser = PEG.buildParser(input, options)
   catch e
@@ -129,5 +128,5 @@ readStream inputStream, (input) ->
     else
       abort e.message
 
-  outputStream.write "#{exportVar} = #{parser.toSource()};\n"
+  outputStream.write "#{exportVar} = #{parser};\n"
   outputStream.end() if outputStream isnt process.stdout

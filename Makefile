@@ -33,7 +33,7 @@ build:
 	$(BROWSERIFY) --standalone "PEGjs-coffee-plugin" -o $(PEGCOFFEE_DIST_FILE_DEV) index.js
 
 test:
-	$(MOCHA) --ignore-leaks
+	$(MOCHA) --ui tdd
 
 test-browser: build
 	cp $(PEGCOFFEE_DIST_FILE_DEV) $(PUBLIC_DIR)/pegjs-coffee-plugin.js
