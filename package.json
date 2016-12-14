@@ -1,6 +1,6 @@
 {
   "name": "pegjs-coffee-plugin",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "A plugin for PEG.js to use CoffeeScript in your actions.",
   "homepage": "https://github.com/Dignifiedquire/peg-coffee",
   "keywords": [
@@ -25,8 +25,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "coffee-script": "~1.12.1",
-    "detect-indent": "~5.0.0",
+    "coffee-script": "^1.12.1",
+    "detect-indent": "^4.0.0",
     "minimist": "^1.2.0"
   },
   "peerDependencies": {
