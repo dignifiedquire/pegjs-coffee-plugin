@@ -45,10 +45,9 @@ grammar = [
 
 suite('arithmetic grammar', function() {
   test('parses 2*(3+4)', function() {
-    var parser = PEG.buildParser(grammar, {
+    var parser = (PEG.buildParser || PEG.generate).bind(PEG)(grammar, {
       plugins: [PEGjsCoffeePlugin]
     });
     expect(tryParse(parser, "2*(3+4)")).to.equal(14);
   });
 });
-

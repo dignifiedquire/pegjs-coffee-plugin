@@ -22,13 +22,7 @@
     "name": "Friedel Ziegelmayer",
     "email": "dignifiedquire@gmail.com"
   },
-  "licenses": [
-    {
-      "type": "3-clause BSD",
-      "url": "https://raw.github.com/Dignifiedquire/peg-coffee/master/LICENSE"
-    }
-  ],
-  "license": "3-clause BSD",
+  "license": "MIT",
   "dependencies": {
     "coffee-script": "~1.10.0",
     "detect-indent": "~4.0.0",
@@ -52,6 +46,8 @@
     "jshint": "~2.9.1-rc1",
     "load-grunt-tasks": "^3.3.0",
     "mocha": "~2.3.4",
+    "pegjs": "^0.10.0",
+    "standard": "^8.6.0",
     "uglify-js": "~2.6.1"
   },
   "engines": {

@@ -13,7 +13,8 @@ if (typeof require !== "undefined" && require !== null) {
 }
 
 buildParser = function(code) {
-  return PEG.buildParser(code, {
+  var generate = (PEG.buildParser || PEG.generate).bind(PEG)
+  return generate(code, {
     plugins: [PEGjsCoffeePlugin]
   });
 };

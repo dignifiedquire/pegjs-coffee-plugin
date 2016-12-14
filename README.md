@@ -1,4 +1,4 @@
-# PEGjs Coffee Plugin [![Build Status](https://travis-ci.org/Dignifiedquire/pegjs-coffee-plugin.png?branch=master)](https://travis-ci.org/Dignifiedquire/pegjs-coffee-plugin)
+# PEGjs Coffee Plugin [![Build Status](https://travis-ci.org/dignifiedquire/pegjs-coffee-plugin.png?branch=master)](https://travis-ci.org/dignifiedquire/pegjs-coffee-plugin)
 
 
 Plugin for PEG.js to use CoffeeScript in actions. Because all I want
@@ -6,7 +6,7 @@ for christmas is CoffeeScript.
 
 ## Status
 The basic functionality is finished. Please test it and add feature
-requests and issues [here](https://github.com/Dignifiedquire/pegjs-coffee-plugin/issues).
+requests and issues [here](https://github.com/dignifiedquire/pegjs-coffee-plugin/issues).
 
 ## Requirements
 
@@ -30,9 +30,9 @@ coffee = require 'pegjs-coffee-plugin'
 #### Browser
 
 Download the
-[development](https://raw.github.com/Dignifiedquire/pegjs-coffee-plugin/master/dist/pegjs-coffee-plugin-0.2.2.js)
+[development](https://raw.github.com/dignifiedquire/pegjs-coffee-plugin/master/dist/pegjs-coffee-plugin-0.2.2.js)
 or the
-[minified](https://raw.github.com/Dignifiedquire/pegjs-coffee-plugin/master/dist/pegjs-coffee-plugin-0.2.2.min.js) version.
+[minified](https://raw.github.com/dignifiedquire/pegjs-coffee-plugin/master/dist/pegjs-coffee-plugin-0.2.2.min.js) version.
 Now include all needed scripts in your html file like this.
 ```html
 <script src="peg.js"></script>
@@ -117,7 +117,7 @@ rule
 
 Clone the repo and run the install
 ```bash
-$ git clone https://github.com/Dignifiedquire/pegjs-coffee-plugin.git
+$ git clone https://github.com/dignifiedquire/pegjs-coffee-plugin.git
 $ cd pegjs-cofee-plugin
 $ npm install && npm install pegjs
 ```
