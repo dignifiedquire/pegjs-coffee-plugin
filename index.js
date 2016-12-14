@@ -23,7 +23,7 @@ function compileCoffeeScript(code) {
 // The initializer gets its own scope which we save
 // in __initializer for later use
 function wrapInitializer(initializer) {
-  var indent = detectIndent(initializer) || '  ';
+  var indent = detectIndent(initializer).indent || '  ';
   return [
     '__initializer = ( ->',
     indent +  initializer,

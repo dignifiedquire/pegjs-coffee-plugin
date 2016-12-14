@@ -78,13 +78,11 @@ suite('peg-coffee', function() {
               expect(tryParse(parser, "a")).to.be.eql(["a", void 0]);
             });
             test('can use the |offset| variable to get the current parse position', function() {
-              var parser = buildParser('start\n  = "a" !{offset() isnt 1}');
+              var parser = buildParser('start\n  = "a" !{location().end.offset isnt 1}');
               expect(tryParse(parser, "a")).to.be.eql(["a", void 0]);
             });
             test('can use the |line| and |column| variables to get the current line and column', function() {
-              var parser = buildParser('{\n  @result = "test"\n}\nstart = line (nl+ line)* { @result }\nline  = thing (" "+ thing)*\nthing = digit / mark\ndigit = [0-9]\nmark  = !{ @result = [line(), column()]; false } "x"\nnl    = ("\\r" / "\\n" / "\\u2028" / "\\u2029")', {
-                trackLineAndColumn: true
-              });
+              var parser = buildParser('{\n  @result = "test"\n}\nstart = line (nl+ line)* { @result }\nline  = thing (" "+ thing)*\nthing = digit / mark\ndigit = [0-9]\nmark  = !{ @result = [location().end.line, location().end.column]; false } "x"\nnl    = ("\\r" / "\\n" / "\\u2028" / "\\u2029")');
               expect(tryParse(parser, "1\n2\n\n3\n\n\n4 5 x")).to.be.eql([7, 5]);
             });
           });
@@ -108,13 +106,11 @@ suite('peg-coffee', function() {
               expect(tryParse(parser, "a")).to.be.eql(["a", void 0]);
             });
             test('can use the |offset| variable to get the current parse position', function() {
-              var parser = buildParser('start\n  = "a" &{offset() is 1}');
+              var parser = buildParser('start\n  = "a" &{location().end.offset is 1}');
               expect(tryParse(parser, "a")).to.be.eql(["a", void 0]);
             });
             test('can use the |line| and |column| variables to get the current line and column', function() {
-              var parser = buildParser('{\n  @result = "test"\n}\nstart = line (nl+ line)* {@result }\nline  = thing (" "+ thing)*\nthing = digit / mark\ndigit = [0-9]\nmark  = &{ @result = [line(), column()]; true } "x"\nnl    = ("\\r" / "\\n" / "\\u2028" / "\\u2029")', {
-                trackLineAndColumn: true
-              });
+              var parser = buildParser('{\n  @result = "test"\n}\nstart = line (nl+ line)* {@result }\nline  = thing (" "+ thing)*\nthing = digit / mark\ndigit = [0-9]\nmark  = &{ @result = [location().end.line, location().end.column]; true } "x"\nnl    = ("\\r" / "\\n" / "\\u2028" / "\\u2029")');
               expect(tryParse(parser, "1\n2\n\n3\n\n\n4 5 x")).to.be.eql([7, 5]);
             });
           });

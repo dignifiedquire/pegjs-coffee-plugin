@@ -33,104 +33,207 @@ module.exports = (function() {
         peg$startRuleFunction  = peg$parsestart,
 
         peg$c0 = peg$FAILED,
-        peg$c1 = function(object) { object },
+        peg$c1 = function(object) {return (function() {
+          return object;
+        }).apply(__initializer);
+        },
         peg$c2 = "{",
         peg$c3 = { type: "literal", value: "{", description: "\"{\"" },
         peg$c4 = "}",
         peg$c5 = { type: "literal", value: "}", description: "\"}\"" },
-        peg$c6 = function() { {} },
-        peg$c7 = function(members) { members },
+        peg$c6 = function() {return (function() {
+          return {};
+        }).apply(__initializer);
+        },
+        peg$c7 = function(members) {return (function() {
+          return members;
+        }).apply(__initializer);
+        },
         peg$c8 = [],
         peg$c9 = ",",
         peg$c10 = { type: "literal", value: ",", description: "\",\"" },
-        peg$c11 = function(head, tail) {
-              result = {}
-              result[head[0]] = head[1]
-              for element in tail
-                result[element[2][0]] = element[2][1]
-              return result
-            },
+        peg$c11 = function(head, tail) {return (function() {
+          var element, i, len, result;
+          result = {};
+          result[head[0]] = head[1];
+          for (i = 0, len = tail.length; i < len; i++) {
+            element = tail[i];
+            result[element[2][0]] = element[2][1];
+          }
+          return result;
+        }).apply(__initializer);
+        },
         peg$c12 = ":",
         peg$c13 = { type: "literal", value: ":", description: "\":\"" },
-        peg$c14 = function(name, value) { [name, value] },
+        peg$c14 = function(name, value) {return (function() {
+          return [name, value];
+        }).apply(__initializer);
+        },
         peg$c15 = "[",
         peg$c16 = { type: "literal", value: "[", description: "\"[\"" },
         peg$c17 = "]",
         peg$c18 = { type: "literal", value: "]", description: "\"]\"" },
-        peg$c19 = function() { []       },
-        peg$c20 = function(elements) { elements },
-        peg$c21 = function(head, tail) {
-              result = [head]
-              result.push element[2] for element in tail
-              return result
-            },
+        peg$c19 = function() {return (function() {
+          return [];
+        }).apply(__initializer);
+        },
+        peg$c20 = function(elements) {return (function() {
+          return elements;
+        }).apply(__initializer);
+        },
+        peg$c21 = function(head, tail) {return (function() {
+          var element, i, len, result;
+          result = [head];
+          for (i = 0, len = tail.length; i < len; i++) {
+            element = tail[i];
+            result.push(element[2]);
+          }
+          return result;
+        }).apply(__initializer);
+        },
         peg$c22 = "true",
         peg$c23 = { type: "literal", value: "true", description: "\"true\"" },
-        peg$c24 = function() { true   },
+        peg$c24 = function() {return (function() {
+          return true;
+        }).apply(__initializer);
+        },
         peg$c25 = "false",
         peg$c26 = { type: "literal", value: "false", description: "\"false\"" },
-        peg$c27 = function() { false  },
+        peg$c27 = function() {return (function() {
+          return false;
+        }).apply(__initializer);
+        },
         peg$c28 = "null",
         peg$c29 = { type: "literal", value: "null", description: "\"null\"" },
-        peg$c30 = function() { "null" },
+        peg$c30 = function() {return (function() {
+          return "null";
+        }).apply(__initializer);
+        },
         peg$c31 = { type: "other", description: "string" },
         peg$c32 = "\"",
         peg$c33 = { type: "literal", value: "\"", description: "\"\\\"\"" },
-        peg$c34 = function() { ""    },
-        peg$c35 = function(chars) { chars },
-        peg$c36 = function(chars) { chars.join "" },
+        peg$c34 = function() {return (function() {
+          return "";
+        }).apply(__initializer);
+        },
+        peg$c35 = function(chars) {return (function() {
+          return chars;
+        }).apply(__initializer);
+        },
+        peg$c36 = function(chars) {return (function() {
+          return chars.join("");
+        }).apply(__initializer);
+        },
         peg$c37 = /^[^"\\\0-\x1F]/,
         peg$c38 = { type: "class", value: "[^\"\\\\\\0-\\x1F]", description: "[^\"\\\\\\0-\\x1F]" },
         peg$c39 = "\\\"",
         peg$c40 = { type: "literal", value: "\\\"", description: "\"\\\\\\\"\"" },
-        peg$c41 = function() { '"'  },
+        peg$c41 = function() {return (function() {
+          return '"';
+        }).apply(__initializer);
+        },
         peg$c42 = "\\\\",
         peg$c43 = { type: "literal", value: "\\\\", description: "\"\\\\\\\\\"" },
-        peg$c44 = function() { "\\" },
+        peg$c44 = function() {return (function() {
+          return "\\";
+        }).apply(__initializer);
+        },
         peg$c45 = "\\/",
         peg$c46 = { type: "literal", value: "\\/", description: "\"\\\\/\"" },
-        peg$c47 = function() { "/"  },
+        peg$c47 = function() {return (function() {
+          return "/";
+        }).apply(__initializer);
+        },
         peg$c48 = "\\b",
         peg$c49 = { type: "literal", value: "\\b", description: "\"\\\\b\"" },
-        peg$c50 = function() { "\b" },
+        peg$c50 = function() {return (function() {
+          return "\b";
+        }).apply(__initializer);
+        },
         peg$c51 = "\\f",
         peg$c52 = { type: "literal", value: "\\f", description: "\"\\\\f\"" },
-        peg$c53 = function() { "\f" },
+        peg$c53 = function() {return (function() {
+          return "\f";
+        }).apply(__initializer);
+        },
         peg$c54 = "\\n",
         peg$c55 = { type: "literal", value: "\\n", description: "\"\\\\n\"" },
-        peg$c56 = function() { "\n" },
+        peg$c56 = function() {return (function() {
+          return "\n";
+        }).apply(__initializer);
+        },
         peg$c57 = "\\r",
         peg$c58 = { type: "literal", value: "\\r", description: "\"\\\\r\"" },
-        peg$c59 = function() { "\r" },
+        peg$c59 = function() {return (function() {
+          return "\r";
+        }).apply(__initializer);
+        },
         peg$c60 = "\\t",
         peg$c61 = { type: "literal", value: "\\t", description: "\"\\\\t\"" },
-        peg$c62 = function() { "\t" },
+        peg$c62 = function() {return (function() {
+          return "\t";
+        }).apply(__initializer);
+        },
         peg$c63 = "\\u",
         peg$c64 = { type: "literal", value: "\\u", description: "\"\\\\u\"" },
-        peg$c65 = function(h1, h2, h3, h4) {
-              String.fromCharCode parseInt "0x#{h1}#{h2}#{h3}#{h4}"
-            },
+        peg$c65 = function(h1, h2, h3, h4) {return (function() {
+          return String.fromCharCode(parseInt("0x" + h1 + h2 + h3 + h4));
+        }).apply(__initializer);
+        },
         peg$c66 = { type: "other", description: "number" },
-        peg$c67 = function(int_, frac, exp) { parseFloat(int_ + frac + exp) },
-        peg$c68 = function(int_, frac) { parseFloat(int_ + frac)       },
-        peg$c69 = function(int_, exp) { parseFloat(int_ + exp)        },
-        peg$c70 = function(int_) { parseFloat(int_)              },
-        peg$c71 = function(digit19, digits) {  digit19 + digits       },
+        peg$c67 = function(int_, frac, exp) {return (function() {
+          return parseFloat(int_ + frac + exp);
+        }).apply(__initializer);
+        },
+        peg$c68 = function(int_, frac) {return (function() {
+          return parseFloat(int_ + frac);
+        }).apply(__initializer);
+        },
+        peg$c69 = function(int_, exp) {return (function() {
+          return parseFloat(int_ + exp);
+        }).apply(__initializer);
+        },
+        peg$c70 = function(int_) {return (function() {
+          return parseFloat(int_);
+        }).apply(__initializer);
+        },
+        peg$c71 = function(digit19, digits) {return (function() {
+          return digit19 + digits;
+        }).apply(__initializer);
+        },
         peg$c72 = "-",
         peg$c73 = { type: "literal", value: "-", description: "\"-\"" },
-        peg$c74 = function(digit19, digits) {  "-#{digit19}#{digits}" },
-        peg$c75 = function(digit) {  "-#{digit}"            },
+        peg$c74 = function(digit19, digits) {return (function() {
+          return "-" + digit19 + digits;
+        }).apply(__initializer);
+        },
+        peg$c75 = function(digit) {return (function() {
+          return "-" + digit;
+        }).apply(__initializer);
+        },
         peg$c76 = ".",
         peg$c77 = { type: "literal", value: ".", description: "\".\"" },
-        peg$c78 = function(digits) {  ".#{digits}" },
-        peg$c79 = function(e, digits) {  e + digits },
-        peg$c80 = function(digits) {  digits.join "" },
+        peg$c78 = function(digits) {return (function() {
+          return "." + digits;
+        }).apply(__initializer);
+        },
+        peg$c79 = function(e, digits) {return (function() {
+          return e + digits;
+        }).apply(__initializer);
+        },
+        peg$c80 = function(digits) {return (function() {
+          return digits.join("");
+        }).apply(__initializer);
+        },
         peg$c81 = /^[eE]/,
         peg$c82 = { type: "class", value: "[eE]", description: "[eE]" },
         peg$c83 = null,
         peg$c84 = /^[+\-]/,
         peg$c85 = { type: "class", value: "[+\\-]", description: "[+\\-]" },
-        peg$c86 = function(e, sign) {  e + sign },
+        peg$c86 = function(e, sign) {return (function() {
+          return e + sign;
+        }).apply(__initializer);
+        },
         peg$c87 = /^[0-9]/,
         peg$c88 = { type: "class", value: "[0-9]", description: "[0-9]" },
         peg$c89 = /^[1-9]/,
@@ -1472,6 +1575,13 @@ module.exports = (function() {
 
       return s0;
     }
+
+    var __initializer;
+
+    __initializer = (function() {
+      return this;
+    }).call({});
+
 
     peg$result = peg$startRuleFunction();
 
