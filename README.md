@@ -107,7 +107,7 @@ rule
 ### Requirements
 
 * [Node.js](http://nodejs.org/) with npm
-* [mocha](http://visionmedia.github.com/mocha/)
+* [mocha](http://mochajs.org/)
 * [expect.js](https://github.com/LearnBoost/expect.js)
 * [http-server](https://github.com/nodeapps/http-server)
 * [JSHint](http://www.jshint.com/)
